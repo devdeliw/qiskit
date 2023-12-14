@@ -1,0 +1,239 @@
+\documentclass[svgnames]{article}     % use "amsart" instead of "article" for AMSLaTeX format
+%\geometry{landscape}                 % Activate for rotated page geometry
+
+%\usepackage[parfill]{parskip}        % Activate to begin paragraphs with an empty line rather than an indent
+
+\usepackage{graphicx}                 % Use pdf, png, jpg, or eps§ with pdflatex; use eps in DVI mode
+
+%maths                                % TeX will automatically convert eps --> pdf in pdflatex
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{esint}
+\usepackage{geometry}
+
+%noindent
+\setlength\parindent{0pt}
+
+%pgfplots
+\usepackage{pgfplots}
+
+%images
+%\graphicspath{{ }}                   % Activate to set a image directory
+
+%tikz
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.15}
+\usepackage{comment}
+\usetikzlibrary{arrows}
+\usepackage[most]{tcolorbox}
+
+%Figures
+\usepackage{float}
+\usepackage{caption}
+\usepackage{lipsum}
+
+\tcbset {
+  base/.style={
+    arc=0mm,
+    bottomtitle=0.5mm,
+    boxrule=0mm,
+    colbacktitle=black!10!white,
+    coltitle=black,
+    fonttitle=\bfseries,
+    left=2.5mm,
+    leftrule=1mm,
+    right=3.5mm,
+    title={#1},
+    toptitle=0.75mm,
+  }
+}
+
+\definecolor{brandblue}{rgb}{0.34, 0.7, 1}
+\newtcolorbox{mainbox}[1]{
+  colframe=brandblue,
+  base={#1}
+}
+
+\newtcolorbox{subbox}[1]{
+  colframe=black!30!white,
+  base={#1}
+}
+
+
+\title{Single Systems -- Lesson 01}
+\author{Deval Deliwala}
+%\date{}                              % Activate to display a given date or no date
+
+\begin{document}
+\maketitle
+%\section{}
+%\subsection{}
+\tableofcontents                     % Activate to display a table of contents
+\newpage
+
+\paragraph{Notation} \mbox{} \\
+
+ -- $X$ refers to the system being considered \\
+ -- $\Sigma$ refers to the set of classical states of $X$ \\
+
+Here are a few examples: 
+
+\begin{itemize}
+  \item[-] if $X$ is a bit, $\Sigma = {0, 1}$ -- the \textit{binary alphabet}
+  \item[-] if $X$ is a six-sided die, $\Sigma = {1,2,3,4,5,6}$ 
+  \item[-] if $X$ is an electric fan switch, $\Sigma = {\text{high, medium, low, off}} $
+\end{itemize} 
+
+\section{Classical Information}
+
+\subsection{Classical States \& Probability Vectors}
+
+In Quantum Computing (QC) our knowledge of $X$ is uncertain. We thus represent our knowledge of the classical state of $X$ by assigning \textit{probabilities} to each classical state resulting in a  \textit{probabilistic state}. \\
+
+For example, suppose $X$ is a bit. In this case, based on our past experience or what we know about $X$, there is a $3/4$ chance its classical state is 0 and a $1/4$ chance it's 1. Therefore,
+
+\[
+\text{Pr} (X = 0) = \frac{3}{4} \qquad \text{Pr} (X = 1) = \frac{1}{4} 
+\] \vspace{5px}
+
+We can represent this more succinctly with a column vector: 
+
+\[
+\begin{pmatrix}
+  \frac{3}{4}\\[5px]
+  \frac{1}{4}
+\end{pmatrix}
+\] \vspace{5px}
+
+The probability of the bit being 0 is placed at the top; the probability of the bit being 1 is placed at the bottom. We can represent any probabilistic state via a column vector satisfying two properties: \\ 
+
+\begin{mainbox}{Probabilistic Vector Requirements}
+  \begin{itemize}
+    \item[1.] All entries of the vector are \textit{nonnegative numbers}
+    \item[2.] The sum of the entries is equal to 1
+  \end{itemize}
+\end{mainbox}
+
+\subsection{Measuring Probabilistic States}
+
+Intuitively, we can never ``see" a system in a probabilistic state; a measurement always yields exactly one of the allowed states. \\
+
+Measuring changes our knowledge of the system, and therefore changes the probabilistic state we associate with the system. If we recognize that $X$ is in the classical state $a \in \Sigma$, then the new probability vector representing our knowledge of $X$ becomes a vector having 1 in the entry corresponding to $a$ and 0 for all other entries. 
+
+\[
+\begin{pmatrix}
+  0.3 \\
+  0.1 \\
+  3.14 \\
+  2.72 \\
+  \vdots 
+\end{pmatrix} 
+\quad \rightarrow \quad \boxed{\text{Measurement}} \quad \rightarrow \quad
+\begin{pmatrix}
+  0 \\
+  0 \\
+  1 \\
+  0 \\
+  \vdots
+\end{pmatrix}
+\] \vspace{5px}
+
+\subsection{Standard Basis Vectors}
+
+We can define any probabilistic state vector as a \textit{linear combination} of standard basis vectors. For example, assuming the system we have in mind is a bit, the standard basis vectors are given by 
+
+\begin{subbox}{Computational Basis States}
+  \[
+  |0\rangle = \begin{pmatrix}
+    1 \\ 0  
+  \end{pmatrix} \quad \text{and} \quad |1 \rangle = \begin{pmatrix}
+    0 \\ 1
+  \end{pmatrix}.
+\]
+\end{subbox}
+
+For example, we have
+
+\[
+\begin{pmatrix}
+  \frac{3}{4}\\[5px] \frac{1}{4} 
+\end{pmatrix} = \frac{3}{4} |0\rangle + \frac{1}{4}|1\rangle
+\] \vspace{5px}
+\subsection{Operations}
+
+\paragraph{Deterministic Operations} \mbox{} \\
+
+Deterministic Operations transform each classical state $a \in \Sigma$ into $f(a)$ for some function f of the form $f: \Sigma \rightarrow \Sigma$. \\
+
+For example, if  $\Sigma = {0,1}$, there are four functions of the form $f_1, f_2, f_3, f_4$ which can be represented as follows: 
+
+\[
+f_1(0) = 0 \quad f_1(1) = 0 
+\] 
+\[ f_2(0) = 0 \quad f_2(1) = 1 \]
+\[f_3(0) = 1 \quad f_3(1) = 0 \]
+\[ f_4(0) = 1 \quad f_4(1) = 1 \] \vspace{5px}
+
+The first and last of these functions are  \textit{constant}, where the output remains constant regardless of input. The middle two are \textit{balanced} where the two possible output values occur the same \# of times. The function $f_2$ is the \textbf{identity function} where $f(a) = a$ for $a \in \Sigma$. The function $f_3$ is the  $NOT$ function where each input is flipped for an output. \\
+
+Every deterministic operation on probabilistic states can be represented as a matrix, where
+
+\[
+M |a\rangle = |f(a)\rangle 
+\] \vspace{5px}
+for every $a \in \Sigma$. Such a matrix always exists and is unique. For the above constant and balanced functions: 
+
+\[
+M_1 = \begin{pmatrix}
+  1 & 1 \\ 0 & 0
+\end{pmatrix}, \quad M_2 = \begin{pmatrix}
+  1 & 0 \\ 0 & 1
+\end{pmatrix}, \quad M_3 = \begin{pmatrix}
+  0 & 1 \\ 1 & 0
+\end{pmatrix}, \quad M_4 = \begin{pmatrix}
+  0 & 0 \\ 1 & 1
+\end{pmatrix} \] \vspace{5px}
+
+Deterministic matrix operations always have exactly one 1 in each column, and 0 for all other entries. \\
+
+Let us denote $\langle a |$ the \textit{row} vector having a 1 in the entry corresponding to $a$ and 0 for all other entries, for each $a \in \Sigma$. \\
+
+For example if $\Sigma = {0, 1}$, 
+
+\[
+  \langle 0 | = ( 1 \quad 0 ) \quad \text{and} \quad \langle 1 | = (0 \quad 1) \] \vspace{5px}
+
+If we perform matrix multiplication on a column vector defined by $|b\rangle$ and a row vector defined by $\langle a |$, we obtain a square matrix having a 1 in the entry corresponding to the $(b, a)$ location in the matrix and 0 everywhere else. For example, 
+
+\[
+  |0\rangle\langle 1 | = \begin{pmatrix}
+    0 & 1 \\ 0 & 0
+\end{pmatrix}.  \] \vspace{5px}
+Using this notation, we can express $M$ corresponding to the function $f$ as 
+
+\[
+  M = \sum_{a \in \Sigma} | f(a)\rangle\langle a |
+\] \vspace{5px}
+If we switch the order of multiplication -- $\langle a || b\rangle$, we obtain a 1 x 1 scalar. For the sake of tidiness we write the product as $\langle a | b \rangle$. We will later define $\langle a | b \rangle$ as the \textit{inner product} of $a $ and $b$.  
+
+ \[
+\langle a | b \rangle = \begin{cases}
+  1 \quad &a=b \\ 0 \quad &a\neq b
+\end{cases} \] \vspace{5px}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}
+
