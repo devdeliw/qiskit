@@ -11,6 +11,11 @@
 \usepackage{esint}
 \usepackage{geometry}
 
+% Inverting Color of PDF
+\usepackage{xcolor}
+\pagecolor[rgb]{0.19,0.19,0.19}
+\color[rgb]{0.77,0.77,0.77}
+
 %noindent
 \setlength\parindent{0pt}
 
@@ -31,6 +36,32 @@
 \usepackage{float}
 \usepackage{caption}
 \usepackage{lipsum}
+
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  language=Java,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+
+\lstset{language=Python}
 
 \tcbset {
   base/.style={
@@ -220,6 +251,486 @@ If we switch the order of multiplication -- $\langle a || b\rangle$, we obtain a
 \langle a | b \rangle = \begin{cases}
   1 \quad &a=b \\ 0 \quad &a\neq b
 \end{cases} \] \vspace{5px}
+
+
+\subsection{Probabilistic Operations \& Stochastic Matrices}
+
+In addition to deterministic operations, we have \textit{probabilistic
+operations.}
+
+For example, consider an operation on a bit where, if the classical state of
+the bit is 0, it is left alone, and if the classical state of the bit is 1, it
+is flipped to 0 with probability $\frac{1}{2}$. This operation is represented
+by the matrix
+
+\[
+\begin{pmatrix}
+  1 & \frac{1}{2} \\[2px] 
+  0 & \frac{1}{2}
+\end{pmatrix}
+\] \vspace{5px}
+
+We can check this matrix does the correct thing by multiplying with the
+standard basis vectors: 
+
+\[
+\begin{pmatrix}
+  1 & \frac{1}{2} \\[2px]
+  0 & \frac{1}{2} 
+\end{pmatrix} 
+\begin{pmatrix}
+  1 \\[2px] 0
+\end{pmatrix} = \begin{pmatrix}
+1 \\[2px] 0 
+\end{pmatrix} \qquad
+\begin{pmatrix}
+  1 & \frac{1}{2} \\[2px]
+  0 & \frac{1}{2} 
+\end{pmatrix} 
+\begin{pmatrix}
+  0 \\[2px] 1
+\end{pmatrix} = \begin{pmatrix}
+\frac{1}{2} \\[2px] \frac{1}{2} 
+\end{pmatrix} 
+\] \vspace{5px}
+
+All probabilistic operations are defined by \textit{stochastic} matrices, which
+are matrices satisfying the following properties: 
+
+\begin{mainbox}{Stochastic Matrices}
+  \begin{itemize}
+    \item[1.] All entries are nonnegative real numbers
+    \item[2.] The entries in every column sum to 1
+  \end{itemize}
+\end{mainbox}
+
+Equivalently, stochastic matrices are matrices whose columns all form
+probability vectors
+
+\subsection{Compositions of Probabilistic Operations}
+
+Suppose $X$ is a system having classical state $\Sigma$, and $M_1, \cdots, M_n$
+are stochastic matrices representing probabilistic operations on $X$. \\
+
+If we apply $M_1$ to the probabilistic state represented by a probability
+vector $u$, the resulting probabilistic state is $M_1 u.$ If we then apply
+a second operation $M_2$, we obtain the probability vector
+
+\[
+M_2(M_1 u) = (M_2M_1)u. 
+\] \vspace{5px}
+
+The order in which operations are applied in a composition can change the
+resulting operation. 
+
+\section{Quantum Information}
+
+Now we move onto quantum information where we use a different type of vector to
+represent  \textit{quantum} states. In this section, we'll be considered with
+systems that are finite in length with nonempty sets of classical states. We
+will continue using \textit{Dirac} notation. 
+
+\subsection{Quantum State Vectors} 
+
+A \textit{quantum state} is represented the same way as probabilistic states.
+Vectors representing quantum states are characterized by these following
+properties: 
+
+\begin{subbox}{Properties of Quantum States}
+  \begin{itemize}
+    \item[1.] The entries of a quantum state vector are \textit{complex \#s}
+    \item[2.] The sum of the \textit{absolute values squared}  of the entries
+      of a quantum state vector is 1. 
+  \end{itemize}
+\end{subbox}
+
+Any speedup from a quantum computer, or improvement in communication protocol,
+ultimately derives from these simple mathematical changes. \\
+
+The \textit{Euclidean norm} of a column  vector 
+
+\[
+v = \begin{pmatrix}
+  \alpha_1 \\ \vdots \\ \alpha_n
+\end{pmatrix} 
+\] \vspace{5px}
+
+is defined as follows: 
+
+\[
+  || v || = \sqrt{\sum_{k=1}^n |\alpha_k|^2}
+\] \vspace{5px}
+
+Thus, quantum state vectors are  \textit{unit vectors} with respect to the
+Euclidean norm. 
+
+\paragraph{Examples of Qubit States} \mbox{} \\
+
+The term \textit{qubit} refers to a quantum system whose classical state set is
+{0, 1} -- the same as a bit, but a quantum state. 
+
+\[
+\begin{pmatrix}
+  1 \\ 0 
+\end{pmatrix} = |0\rangle \quad \text{and} \quad \begin{pmatrix}
+  0 \\ 1
+\end{pmatrix} = |1\rangle
+\] \vspace{5px}
+\[
+\begin{pmatrix}
+  \frac{1}{\sqrt{2}} \\[4px] \frac{1}{\sqrt{2}}
+\end{pmatrix} = \frac{1}{\sqrt{2}}|0\rangle + \frac{1}{\sqrt{2}}|1\rangle
+\]\vspace{5px}
+and 
+
+\[
+\begin{pmatrix}
+  \frac{1+2i}{3} \\[4px] -\frac{2}{3} 
+\end{pmatrix} = \frac{1+2i}{3}|0\rangle - \frac{2}{3}|1\rangle
+\] \vspace{5px}
+
+Computing the sum of the absolute values squared of the entries respectively
+yields
+
+\[
+|1|^2 + |0|^2 = 1 \quad \text{and}  \quad |0|^2 + |1|^2 = 1, 
+\] \vspace{5px}
+
+\[
+  \Big| \frac{1}{\sqrt{2}} \Big|^2 + \Big| \frac{1}{\sqrt{2}}\Big|^2
+  = \frac{1}{2} + \frac{1}{2} = 1
+\] \vspace{5px}
+
+and 
+
+\[
+\Big| \frac{1+2i}{3} \Big|^2 + \Big| -\frac{2}{3}\Big|^2 = \frac{5}{9}
++ \frac{4}{9} = 1
+\] \vspace{5px}
+
+These are therefore all valid quantum state vectors and are all linear
+combinations, \textit{superpositions} of the 0 and 1 states. \\
+
+The second example of a qubit state vector is commonly encountered and is
+called the \textit{plus} state: 
+
+\[
+  |+\rangle = \frac{1}{\sqrt{2}}|0\rangle + \frac{1}{\sqrt{2}} |1\rangle
+\] \vspace{5px}
+
+We also use the notation 
+
+\[
+  |-\rangle = \frac{1}{\sqrt{2}}|0\rangle - \frac{1}{\sqrt{2}}|1\rangle
+\] \vspace{5px}
+
+for the \textit{minus} state. \\ 
+
+It is common to use the notation $|\psi\rangle$ to denote an arbitrary vector
+that may not necessarily be a standard basis vector. \\
+
+If we have a vector $|\psi\rangle$ whose indices correspond to some classical
+state set $\Sigma$, and if $a \in \Sigma$ is an element of this classical state
+set, then the (matrix) product $\langle a | \psi \rangle $ is equal to the
+entry of the vector  $|\psi\rangle$ whose index corresponds to $a$. \\ 
+
+For example, if  $\Sigma = {0, 1}$ and 
+
+\[
+|\psi\rangle = \frac{1+2i}{3}|0\rangle - \frac{2}{3}|1\rangle = \begin{pmatrix}
+  \frac{1+2i}{3}\\[4px] -\frac{2}{3}
+\end{pmatrix} 
+\] \vspace{5px}
+then 
+
+\[
+\langle 0 | \psi \rangle = \frac{1+2i}{3} \quad \text{and}  \quad \langle
+1 | \psi \rangle = -\frac{2}{3}
+\] \vspace{5px}
+
+Row vector notation, $\langle \psi |$ refers to the row vector obtained by
+taking the  \textit{conjugate transpose} of the column vector $|\psi\rangle$.\\
+
+The same $|\psi\rangle$ defined above would define $\langle \psi |$ 
+
+\[
+\langle \psi | = \frac{1-2i}{3}\langle 0| - \frac{2}{3}\langle 1| = \left(\frac{1-2i}{3} \quad -\frac{2}{3}\right)
+\] \vspace{5px}
+
+The reason we take the complex conjugate in addition to the transpose will
+become clear when we discuss the \textit{inner product}.
+
+
+\subsection{Measuring Quantum States}
+
+The rule is simple: If a quantum state is measured, each classical state of the
+system results with probability equal to the \textit{absolute value squared} of
+the entry in the quantum state vector corresponding to that classical state.
+This is known as the \textit{Born rule} in quantum mechanics. \\
+
+For example, measuring the plus state 
+
+\[
+  |+\rangle = \frac{1}{\sqrt{2}}|0\rangle + \frac{1}{\sqrt{2}}|1\rangle
+\] \vspace{5px}
+
+results in two outcomes, 0 and 1, with probabilities 
+
+\[
+  \text{Pr(outcome is 0)} = |\langle 0 | +\rangle |^2
+  = \Big|\frac{1}{\sqrt{2}}\Big|^2 = \frac{1}{2}
+\] \vspace{5px}
+
+\[
+  \text{Pr(outcome is 1)} = |\langle 1 | + \rangle|^2
+  = \Big|\frac{1}{\sqrt{2}}\Big|^2 = \frac{1}{2}
+\] \vspace{5px}
+
+\subsection{Unitary Operations}
+
+The reason quantum information is fundamentally different from classical
+information is because the set of allowable \textit{operations} that can be
+performed on a quantum state is different than it is for classical information.
+All operations on quantum states are defined with \textit{Unitary Matrices}.
+A square matrix $U$ having complex \# entries is \textit{unitary} if it
+satisfies the equations 
+
+\begin{mainbox}{Unitary Matrices}
+  \[
+  UU^\dagger = I 
+  \]
+  \[
+  U^\dagger U = I
+  \]  
+\end{mainbox}
+
+Here, $I$ is the identity matrix, and $U^\dagger$ is the \textit{conjugate
+transpose} of $U$. If $M$ is not a square matrix it is possible for $M^\dagger
+M = I$ but not  $M M^\dagger = I$. This equivalence is only true for square
+matrices. 
+
+The condition that  $U$ is unitary is equivalent to the condition that
+multiplication by $U$ does not change the euclidean norm of any vector. \\
+
+In this sense, Unitary matrices are the quantum analogous of the classical
+Stochastic matrices. 
+
+\subsection{Important examples of Unitary Operations on Qubits}
+
+\paragraph{\textit{Pauli Operations}} \mbox{} \\
+
+The four Pauli matrices are as follows: 
+
+\[
+I = \begin{pmatrix}
+  1 & 0 \\ 0 & 1
+\end{pmatrix}, \quad \sigma_x = \begin{pmatrix}
+  0 & 1 \\[2px]
+  1 & 0 
+\end{pmatrix}, \quad \sigma_y = \begin{pmatrix}
+  0 & -i \\[2px]
+  i & 0 
+\end{pmatrix}, \quad \sigma_z = \begin{pmatrix}
+  1 & 0 \\[2px]
+  0 & -1 
+\end{pmatrix} 
+\] \vspace{5px}
+
+A common notation is that $X = \sigma_x$, $Y = \sigma_y$, and $Z = \sigma_z$.
+The  $X$ operation is also called the \textit{bit flip} or a  \textit{NOT}
+operation because it induces this action on bits: 
+
+ \[
+X|0\rangle = |1\rangle \quad \text{and} \quad X|1\rangle = |0\rangle
+\] \vspace{5px}
+
+The $Z$ operation is also called a \textit{phase flip} because it has this
+action: 
+
+\[
+Z|0\rangle = |0\rangle \quad \text{and} \quad Z|1\rangle = -|1\rangle
+\] \vspace{5px}
+
+\paragraph{\textit{Hadamard Operation}} \mbox{} \\ 
+
+The Hadamard Operation is described by this matrix: 
+
+\[
+H = \begin{pmatrix}
+  \frac{1}{\sqrt{2}} & \frac{1}{\sqrt{2}} \\[4px]
+  \frac{1}{\sqrt{2}} & -\frac{1}{\sqrt{2}} 
+\end{pmatrix}
+\] \vspace{5px}
+
+Applying the Hadamard Gates on well-known quantum states yields 
+
+\begin{align*}
+  H|0\rangle &= |+\rangle \\
+  H|1\rangle &= |-\rangle \\
+  H|+\rangle &= |0\rangle \\
+  H|-\rangle &= |1\rangle
+\end{align*}
+
+It is worth pausing to consider the fact that $H|+\rangle = |0\rangle$ and
+$H|-\rangle = |1\rangle$. Both  $|+\rangle$ and  $|-\rangle$ produce
+0 and 1 with the same probabilities as each other -- so one would think having
+both states is useless and we wouldn't know which of the states a qubit is in 
+-- $|+\rangle$ or $|-\rangle$. However, if we apply a Hadamard Operation and
+then measure we obtain 0 with certainty if the original state was $|+\rangle$ 
+and 1 if the original state was $|-\rangle$. \\ 
+
+  Thus the quantum states $|+\rangle$ and $|-\rangle$ can be discriminated
+  \textit{perfectly}. This reveals that sign changes, or more generally changes
+  to the \textit{phases} of the complex \# entries of a quantum state vector,
+  an significantly change the state.\\
+
+  Here is another example, this time of the action of a $T$ operation on a plus
+  state: 
+
+  \[
+    T|+\rangle = T\left( \frac{1}{\sqrt{2}} |0\rangle + \frac{1}{\sqrt{2}}|1\rangle \right) = \frac{1}{\sqrt{2}}T|0\rangle + \frac{1}{\sqrt{2}}|1\rangle = \frac{1}{\sqrt{2}} |0\rangle + \frac{1+i}{2}|1\rangle
+  \] \vspace{5px}
+  
+Notice we did not bother to convert to the equivalent matrix/vector forms. We instead used the linearity of matrix multiplication together with the formulas
+
+\[
+  T|0\rangle = |0\rangle \quad \text{and} \quad T|1\rangle = \frac{1+i}{\sqrt{2}}|1\rangle
+\] \vspace{5px}
+
+
+
+\paragraph{\textit{Phase Operations}} \mbox{} \\
+
+A phase operation is one described by the matrix 
+
+\[
+P_\theta = \begin{pmatrix}
+  1 & 0 \\[2px]
+  0 & e^{i\theta} 
+\end{pmatrix} 
+\] \vspace{5px}
+
+for any choice of real number $\theta$, that is, any complex \# with a norm of
+1. The operations 
+
+\[
+  S = P_{\pi / 2} = \begin{pmatrix}
+    1 & 0 \\[4px]
+    0 & i 
+  \end{pmatrix} \quad \text{and}\quad T = P_{\pi / 4} = \begin{pmatrix}
+    1 & 0 \\[4px]
+    0 & \frac{1+i}{\sqrt{2}} 
+  \end{pmatrix}  \] \vspace{5px}
+
+are particularly important examples. Other examples include $I = P_0$ and $Z
+= P_\pi$
+
+\subsection{Compositions of Qubit Unitary Operations} 
+
+If we first apply a Hadamard Operation, followed by the $S$ operation, followed by another Hadamard Operation, the resulting operation $R$ is as follows: 
+
+\[
+R = HSH = \begin{pmatrix}
+  \frac{1}{\sqrt{2}} & \frac{1}{\sqrt{2}} \\[4px]
+  \frac{1}{\sqrt{2}} & -\frac{1}{\sqrt{2}} 
+\end{pmatrix} \begin{pmatrix}
+  1 & 0 \\[4px]
+  0 & i 
+\end{pmatrix} \begin{pmatrix}
+  \frac{1}{\sqrt{2}} & \frac{1}{\sqrt{2}} \\[4px]
+  \frac{1}{\sqrt{2}} & -\frac{1}{\sqrt{2}} 
+\end{pmatrix}  = \begin{pmatrix}
+  \frac{1+i}{2} & \frac{1-i}{2} \\[4px]
+  \frac{1-i}{2} & \frac{1+i}{2} 
+\end{pmatrix} 
+\] \vspace{5px}
+
+This unitary operation $R$ is an interesting example. By applying this operation twice, we obtain a \textit{NOT} operation. 
+
+\[
+R^2 = \begin{pmatrix}
+  \frac{1+i}{2} & \frac{1-i}{2} \\[4px]
+  \frac{1-i}{2} & \frac{1+i}{2} 
+\end{pmatrix}^2 = \begin{pmatrix}
+  0 & 1 \\[4px]
+  1 & 0 
+\end{pmatrix} 
+\] 
+\section{Qiskit Examples}
+
+In python, matrix and vector computations can be performed using the \verb|array| class from the \verb|NumPy| library. Here is an example of a code cell that defines two vectors, \verb|ket0| and \verb|ket1| corresponding to their qubit state vectors $|0\rangle$ and $|1\rangle$, and displays their average.  \\
+
+\begin{lstlisting}
+from numpy import array
+
+ket_0 = array([1, 0])
+ket_1 = array([0, 1])
+
+ket_0 / 2 + ket_1 / 2 
+\end{lstlisting} \vspace{5px}
+
+Output:  
+
+\begin{lstlisting}
+array([0.5, 0.5])
+\end{lstlisting} \vspace{5px}
+
+
+We can also use \verb|array| to create matrices that represent operations.\\  
+
+\begin{lstlisting}
+M_1 = array([[1, 1], [0, 0]])
+M_2 = array([[1, 1], [1, 0]])
+
+M_1 / 2 + M_2 / 2
+\end{lstlisting}
+
+Output: 
+
+\begin{lstlisting}
+array([[1. , 1. ],
+       [0.5, 0. ]])
+\end{lstlisting} \vspace{5px}
+
+Matrix multiplication can be performed using \verb|matmul| function from \verb|NumPy| : \\
+
+\begin{lstlisting}
+from numpy import matmul 
+
+display(matmul(M_1, ket_1))
+display(matmul(M_1, M_2))
+display(matmul(M_2, M_1))
+\end{lstlisting} \vspace{5px}
+
+Output: 
+
+\begin{lstlisting}
+array([1, 0])
+array([[2, 1], 
+       [0, 0]])
+array([[1, 1], 
+       [1, 1]])
+\end{lstlisting} \vspace{5px}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
