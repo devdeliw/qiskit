@@ -91,7 +91,7 @@
 \usepackage{lipsum}
 
 
-\title{Brief Article}
+\title{Multiple Systems -- Lesson 02}
 \author{Deval Deliwala}
 %\date{}                              % Activate to display a given date or no date
 
@@ -173,6 +173,296 @@ Written as strings, these classical states look like this:
 
 For the classical state $0001010000$ we see that $X_4$ and $X_6$ are in the
 state 1, while all other systems are in the state 0. 
+
+\subsection{Probabilistic States}
+
+\textit{Probabilistic} states associate a probability with each classical state
+of a system. Thus, a probabilistic state of multiple systems -- viewed
+collectively as if they form a single system -- associates a probability with
+each element of the Cartesian product of the classical state sets of the
+individual systems. \\
+
+Suppose $X$ and $Y$ are both bits. So their corresponding classical state sets
+are $\Sigma = {0, 1}$ and  $\Gamma = {0, 1}$. Here is a probabilistic state of
+the pair  $XY$: 
+
+ \begin{align*}
+   &\text{Pr}((X,Y) = (0,0)) = \frac{1}{2} \\
+   &\text{Pr} ((X,Y) = (0, 1) = 0 \\
+   &\text{Pr} ((X,Y) = (1, 0) = 0 \\
+   &\text{Pr} ((X,Y) = (1, 1) = \frac{1}{2}
+\end{align*}
+
+This probabilistic state is one in which both $X$ and $Y$ are random bits --
+each is 0 with probability 1/2 and 1 with probability 1/2 -- but the classical
+states of the two bits always agree. This is an example of
+a \textit{correlation} between these systems.
+
+\subsection{Ordering Cartesian Product State Sets}
+
+To represent a probabilistic state of multiple systems as a Cartesian product,
+one must decide on an ordering of the product's elements. The entries in each
+$n-$ tuple are viewed as being ordered by significance that \textit{decreases
+from left to right}. \\
+
+The Cartesian Product ${1, 2, 3} \times {0, 1}$ is ordered like this: 
+
+ \[
+   (1, 0), (1, 1), (2, 0), (2, 1), (3, 0), (3, 1)
+\] \vspace{5px}
+
+The probabilistic state represented by the probability vector above 
+
+\[
+\begin{pmatrix}
+  \frac{1}{2}\\ 0 \\ 0 \\ \frac{1}{2}
+\end{pmatrix}
+\] \vspace{5px}
+
+Where from top to bottom we get the probability associated with 00, then 01,
+then 10, then 11. 
+
+\subsection{Independence of Two Systems}
+
+Intuitively speaking, two systems are independent if learning the classical
+state of either system has no effect on the probabilities associated with the
+other. \\
+
+Suppose $X$ and $Y$ are systems having classical state sets $\Sigma$ and
+$\Gamma$ respectively. They are said to be \textit{independent} if it is the
+case that 
+
+\[
+\text{Pr}((X, Y) = (a, b)) = \text{Pr}(X = a)\text{Pr}(Y=b)
+\] \vspace{5px}
+for every $a \in \Sigma$ and $b \in \Gamma$. \\
+
+To express this in terms of probability vectors, assume the probabilistic state
+of $(X, Y)$ is described as a probability vector written in Dirac notation as 
+
+\[
+  \sum_{(a,b)\in \Sigma \times \Gamma} p_{ab} |ab\rangle
+\] \vspace{5px}
+
+The above condition is equivalent to the existence of two probability vectors 
+
+\[
+  |\phi\rangle = \sum_{a\in\Sigma} q_a |a\rangle \quad \text{and } \quad
+  |\psi\rangle = \sum_{b\in\Gamma} r_b|b\rangle
+\] \vspace{5px}
+
+representing the probabilities associated with the classical states of $X$ and
+$Y$ such that 
+
+\[
+  p_{ab} = q_a r_b
+\] \vspace{5px}
+
+For example, the probabilistic state of a pair of bits $(X,Y)$ represented by
+the vector 
+
+\[
+\frac{1}{6}|00\rangle + \frac{1}{12}|01\rangle + \frac{1}{2}|10\rangle
++ \frac{1}{4}|11\rangle
+\] \vspace{5px}
+
+is one in which $X$ and $Y$ are independent. Specifically the condition
+required for independence is true for the probability vectors 
+
+\[
+|\phi\rangle = \frac{1}{4}|0\rangle + \frac{3}{4}|1\rangle \quad \text{and}
+\quad |\psi\rangle = \frac{2}{3}|0\rangle + \frac{1}{3}|1\rangle
+\] \vspace{5px}
+
+For example, to match the 00 entry we need $\frac{1}{6} = \frac{1}{4} \times
+\frac{2}{3}$. The other entries can be verified in a similar manner.\\
+
+On the other hand, the probabilistic state 
+
+\[
+\frac{1}{2}|00\rangle + \frac{1}{2}|11\rangle
+\] \vspace{5px}
+
+does not represent independence between $X$ and $Y$. \\
+
+Suppose that there did exist probability vectors $|\phi\rangle$ and $\psi$ for
+which $p_ab = q_ar_b$ is satisfied for every choice $a$ and $b$. It would then
+necessarily be that 
+
+\[
+q_0r_1 = \text{Pr} ((X,Y) = (0, 1)) = 0
+\] \vspace{5px}
+
+This implies that either $q_0 = 0$ or $r_1 = 0$. Which means that $q_0r_0 = 0$
+or $q_1r_1 = 0$ which isn't the case. Hence, there do not exist vectors $\phi$
+and $|\psi\rangle$ satisfying the property required for independence. \\
+
+We can now define correlation precisely as a \textit{lack of independence}. 
+
+\subsection{Tensor Products of Vectors}
+
+The condition for independence just described can be expressed more succinctly
+through the notion of a \textit{tensor product}. In concrete terms, given two
+vectors 
+
+\[
+  |\phi\rangle = \sum_{a\in\Sigma} \alpha_a |a\rangle \quad \text{and} \quad  |\psi\rangle = \sum_{b\in\Gamma} \beta_b |b\rangle
+\] \vspace{5px}
+the tensor product $|\phi\rangle \otimes |\psi\rangle $ is a new vector over
+the joint set $\Sigma \times \Gamma$ defined as 
+\begin{subbox}{Tensor Product}
+\[
+  |\phi\rangle \otimes |\psi\rangle = \sum_{(a,b) \in \Sigma \times \Gamma}
+  \alpha_a \beta_b |ab\rangle 
+\] 
+\end{subbox}
+
+Equivalently the vector $|\pi\rangle = |\phi\rangle \otimes |\psi\rangle $ is
+defined by the equation 
+
+\[
+  \langle ab | \pi \rangle = \langle a | \phi \rangle \langle b | \psi \rangle
+\] \vspace{5px}
+
+being true for every $a\in \Sigma$ and $b\in\Gamma$
+
+In this situation it is said that $|\pi\rangle$ is a \textit{product state} or
+\textit{product vector}. We often just write $|\phi\rangle |\psi\rangle
+$ instead of $|\phi\rangle \otimes |\psi\rangle $. The tensor product for two
+column vectors is defined as follows: 
+
+\[
+\begin{pmatrix}
+  \alpha_1 \\ \vdots \\ \alpha_m
+\end{pmatrix} \otimes \begin{pmatrix}
+  \beta_1 \\ \vdots \\ \beta_k 
+\end{pmatrix} = \begin{pmatrix}
+  \alpha_1\beta_1 \\ \vdots \\ \alpha_1\beta_k \\ \alpha_2 \beta_1 \\ \vdots \\
+  \alpha_2 \beta_k \\ \vdots \\ \alpha_m \beta_1 \\ \vdots \\ \alpha_m \beta_k
+\end{pmatrix} 
+\] \vspace{5px}
+For standard basis vectors: 
+
+\[
+  |a\rangle \otimes |b\rangle = |ab\rangle = |a, b\rangle
+\] \vspace{5px}
+
+
+The tensor product of two vectors has the important property that it is
+\textit{bilinear}, which means that it is linear in each of the two arguments
+separately, assuming that the other argument is fixed. 
+
+\begin{mainbox}{Bilinearity}
+  1. Linearity in the first argument: 
+
+  \[
+    (|\phi_1\rangle + |\phi_2\rangle) \otimes |\psi\rangle = |\phi_1\rangle
+    \otimes |\psi\rangle + |\phi_2\rangle \otimes |\psi\rangle 
+  \]\[
+    ( \alpha | \phi \rangle) \otimes |\psi\rangle = \alpha (|\phi\rangle
+    \otimes |\psi\rangle )
+  \] 
+  2. Linearity in the second argument: 
+
+  \[
+  |\phi\rangle \otimes (|\psi_1\rangle + |\psi_2\rangle ) = |\phi\rangle
+\otimes |\psi_1\rangle  + |\phi\rangle \otimes |\psi_2\rangle \] \[
+|\phi\rangle \otimes (\alpha |\psi\rangle) = \alpha(|\phi\rangle \otimes
+|\psi\rangle )
+\] 
+\end{mainbox} 
+
+Scalars ``float freely" within tensor products.
+
+\subsection{Independence and Tensor Products for 3 or More Systems}
+
+If $X_1, \cdots, X_n$ are systems with classical state sets $\Sigma_1, \cdots,
+\Sigma_n$, then a probabilistic state of the combined system $X_1X_2\cdots
+X_n$ is a \textit{product state}
+
+ \[
+|\psi\rangle = |\phi_1\rangle \otimes \cdots \otimes |\phi_n\rangle 
+ \] \vspace{5px}
+ 
+ 
+for probability vectors $|\phi_1\rangle \cdots |\phi_n\rangle $ describing
+probabilistic states $X_1, \cdots, X_n$ \\
+  
+  
+The definition of the tensor product generalizes as the following: 
+
+\[
+|\psi\rangle = |\phi_1\rangle \otimes \cdots \otimes |\phi_n\rangle 
+\] \vspace{5px}
+
+is defined by the equation 
+
+\[
+\langle a_1\cdots a_n | \psi \rangle = \langle a_1 | \phi_1\rangle \cdots
+\langle a_n | \phi_n \rangle
+\] \vspace{5px}
+for every $a_1 \in \Sigma_1, \cdots a_n \in \Sigma_n$. \\
+
+Similar to the tensor product for two vectors, the tensor product for 3 or more
+vectors is linear in each of the arguments individually. We say the tensor
+product of 3 or more vectors is \textit{multilinear}. \\
+
+For multiple systems is $X_1, ... X_n$ are \textit{independenet}, when they are
+in a product state, they are actually \textit{mutually independent}. There is
+also other notions of independence for 3 or more systems such as
+\textit{pairwise independence}. \\
+
+For any positive integer $n$ and any classical states $a_1, ... , a_n$ we have
+
+\[
+|a_1\rangle \otimes \cdot \otimes |a_n\rangle = |a_1\cdot a_n\rangle 
+\] \vspace{5px}
+
+
+\subsection{Measurements of Probabilistic States}
+
+If two bits $(X, Y)$ are described by the following probability vector 
+
+\[
+\frac{1}{2}|00\rangle + \frac{1}{2}|11\rangle , 
+\] \vspace{5px}
+
+then the outcome measurement of 0 for $X$ and 0 for $Y$ is obtained with
+probability $1/2$ and the outcome 11  is also obtained with probability $1/2$.
+\\
+
+Suppose however, that we choose not to measure \textit{every} system, just some
+\textit{proper subset} of the systems. This will result in a measurement
+outcome for each system that gets measured, and will also affect our knowledge
+of the remaining systems. \\ 
+
+Suppose that $X$ is a system having classical state set $\Sigma$ and  $Y$ is
+a system having classical state set $\Gamma$, and the two systems together are
+in some probabilistic state. We will consider what happens when we just measure
+$X$ and do nothing with $Y$. The situation vice versa is handled symmetrically.
+\\
+
+We know that the probability to observe a particular classical state
+$a\in\Sigma$ when just $X$ is measured must be consistent with the
+probabilities we would obtain under the assumption that $Y$ was also measured.
+That is, we must have
+
+\[
+  \text{Pr} (X = a) = \sum_{b\in\Gamma} \text{Pr} ((X, Y) = (a, b))
+\] \vspace{5px}
+Intuitively, if this formula is wrong, it would mean that the probabilities for
+$X$ measurements are influenced simply by whether or not $Y$ is also measured,
+irrespective of the outcome of $Y$. If $Y$ happened to be in a distant
+location, say, another galaxy, this would allow for faster-than-light
+signaling, which we obviously reject. 
+
+
+
+
+
+
+
+
 
 
 
