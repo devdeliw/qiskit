@@ -1,0 +1,182 @@
+\documentclass[svgnames]{article}     % use "amsart" instead of "article" for AMSLaTeX format
+%\geometry{landscape}                 % Activate for rotated page geometry
+
+%\usepackage[parfill]{parskip}        % Activate to begin paragraphs with an empty line rather than an indent
+
+\usepackage{graphicx}                 % Use pdf, png, jpg, or eps§ with pdflatex; use eps in DVI mode
+
+%maths                                % TeX will automatically convert eps --> pdf in pdflatex
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{esint}
+\usepackage{geometry}
+
+% Inverting Color of PDF
+\usepackage{xcolor}
+\pagecolor[rgb]{0.19,0.19,0.19}
+\color[rgb]{0.77,0.77,0.77}
+
+%noindent
+\setlength\parindent{0pt}
+
+%pgfplots
+\usepackage{pgfplots}
+
+%images
+%\graphicspath{{ }}                   % Activate to set a image directory
+
+%tikz
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.15}
+\usepackage{comment}
+\usetikzlibrary{arrows}
+\usepackage[most]{tcolorbox}
+
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  language=Java,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+
+\lstset{language=Python}
+
+\tcbset {
+  base/.style={
+    arc=0mm,
+    bottomtitle=0.5mm,
+    boxrule=0mm,
+    colbacktitle=black!10!white,
+    coltitle=black,
+    fonttitle=\bfseries,
+    left=2.5mm,
+    leftrule=1mm,
+    right=3.5mm,
+    title={#1},
+    toptitle=0.75mm,
+  }
+}
+
+\definecolor{brandblue}{rgb}{0.34, 0.7, 1}
+\newtcolorbox{mainbox}[1]{
+  colframe=brandblue,
+  base={#1}
+}
+
+\newtcolorbox{subbox}[1]{
+  colframe=black!30!white,
+  base={#1}
+}
+
+%Figures
+\usepackage{float}
+\usepackage{caption}
+\usepackage{lipsum}
+
+
+\title{Brief Article}
+\author{Deval Deliwala}
+%\date{}                              % Activate to display a given date or no date
+
+\begin{document}
+\maketitle
+%\section{}
+%\subsection{}
+\tableofcontents                     % Activate to display a table of contents
+\newpage
+
+We can always choose to view multiple systems \textit{together} as if they form
+a single, compound system -- to which the discussion in the previous section
+applies. 
+
+\section{Classical Information}
+
+Recognizing how mathematics works in the familiar setting of classical
+information is helpful in understanding why quantum information is described
+the way it is. 
+
+\subsection{Classical States via the Cartesian Product}
+
+We will start with classical states of multiple systems. We will begin by
+discussing just two systems and then generalize further. \\
+
+To be precise, let us suppose that $X$ is a system whose classical state set is
+$\Sigma$ and $Y$ is a second system having classical state set $\Gamma$.
+Because these are \textit{classical state sets}, our assumption is that
+$\Sigma$ and $\Gamma$ are both finite and nonempty. It could be that $\Sigma
+= \Gamma$, but this is not necessarily so. \\
+
+Now imagine the two systems  $X$ and $Y$ are placed side-by-side, with $X$ on the left and $Y$ on the right. We can views these two systems as if they form a single system $(X, Y)$ or $XY$. \\
+
+The set of classical states of $XY$ is the \textit{Cartesian Product} of $\Sigma$ and $\Gamma$, which is the set defined as 
+
+\begin{mainbox}{Cartesian Product}
+\[
+  \Sigma \times \Gamma = { (a, b) : a \in \Sigma \text{ and } b \in \Gamma}
+\] 
+\end{mainbox}
+
+The Cartesian Product is the mathematical notion of viewing an element of one set and an element of a second set together, as if they form a single set. \\ 
+
+For more than two systems, the situation generalizes in a natural way. If we suppose that $X_1, \cdots, X_n$ are systems having classical state sets $\Sigma_1, \cdots, \Sigma_n$, respectively for any positive integer $n$, the classical state set of the $n$-tuple $X_1X_2\cdots X_n$, viewed as a single joint system, is the Cartesian Product
+
+\[
+  \Sigma_1 \times \cdots \times \Sigma_n = {(a_1, \cdots, a_n) : a_1 \in \Sigma_1 \cdots a_n \in \Sigma_n}
+\] \vspace{5px}
+
+\subsection{Representing states as strings} 
+
+It is convenient to write a classical state $(a_1, \cdots, a_n)$ as a string `$a_1 \cdots a_n$`. The notion of a string, which is fundamentally important concept in CS, is formalized in mathematical terms through the cartesian product. \\
+
+For example suppose that $X_1, \cdots , X_{10}$ are bits, so the classical state sets of these systems are all the same 
+
+\[
+  \Sigma_1 = \Sigma_2 = \cdots = \Sigma_{10} = {0, 1}
+\] \vspace{5px}
+
+The set ${0, 1}$ is referred to as the \textit{binary alphabet}. There are
+$2^{10} = 1024$ classical states of the joint system $X_1X_2 \cdots X_{10}$
+which are elements of the set
+
+\[
+  \Sigma_1 \times \Sigma_2 \times \cdots \times \Sigma_{10} = {0, 1}^10. 
+\] \vspace{5px}
+
+Written as strings, these classical states look like this: 
+
+\begin{align*}
+  00000&00000 \\
+  00000&00001 \\
+  00000&00010 \\
+  00000&00011 \\
+  00000&00100 \\
+       &\vdots \\
+  11111&11111
+\end{align*}
+
+For the classical state $0001010000$ we see that $X_4$ and $X_6$ are in the
+state 1, while all other systems are in the state 0. 
+
+
+
+
+
+\end{document}
+
