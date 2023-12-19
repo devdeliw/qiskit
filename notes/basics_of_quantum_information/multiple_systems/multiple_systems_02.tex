@@ -397,11 +397,13 @@ The definition of the tensor product generalizes as the following:
 
 is defined by the equation 
 
+\begin{subbox}{Tensor Product Definition}
 \[
 \langle a_1\cdots a_n | \psi \rangle = \langle a_1 | \phi_1\rangle \cdots
 \langle a_n | \phi_n \rangle
 \] \vspace{5px}
-for every $a_1 \in \Sigma_1, \cdots a_n \in \Sigma_n$. \\
+for every $a_1 \in \Sigma_1, \cdots a_n \in \Sigma_n$. 
+\end{subbox}
 
 Similar to the tensor product for two vectors, the tensor product for 3 or more
 vectors is linear in each of the arguments individually. We say the tensor
@@ -450,16 +452,191 @@ That is, we must have
 \[
   \text{Pr} (X = a) = \sum_{b\in\Gamma} \text{Pr} ((X, Y) = (a, b))
 \] \vspace{5px}
+
 Intuitively, if this formula is wrong, it would mean that the probabilities for
 $X$ measurements are influenced simply by whether or not $Y$ is also measured,
 irrespective of the outcome of $Y$. If $Y$ happened to be in a distant
 location, say, another galaxy, this would allow for faster-than-light
-signaling, which we obviously reject. 
+signaling, which we obviously reject. \\
+
+Given the assumption that only $X$ is measured, there still exists uncertainty
+over the classical state of $Y$. We must update our description so this
+uncertainty of  $Y$ is properly reflected. \\
+
+The following \textit{conditional probability} formula reflects this
+uncertainty. 
+
+\[
+\text{Pr} (Y = b \, | \, X = a) = \frac{\text{Pr} ((X,Y) = (a, b))}{\text{Pr} (X=a)}
+\] \vspace{5px}
+
+Here, the expression $\text{Pr} (Y=b \, | \, X = a )$ denotes the probability
+that $Y = b$ \textit{conditioned} on $X = a$. \\
+
+To express these formulas in terms of probability vector, consider
+a probability vector $|\psi\rangle $ describing the joint state of $(X,Y)$. \\
+
+\[
+  |\psi\rangle = \sum_{(a,b) \in \Sigma \times \Gamma} p_{ab} |ab\rangle 
+\] \vspace{5px}
+Measuring $X$ alone yields each possible outcome with probabilities 
+
+\[
+  \text{Pr} (X=a) = \sum_{b\in\Gamma} p_{ab}
+\] \vspace{5px}
+
+Thus the vector representing the probabilistic state of $X$ alone is given by 
+
+\[
+  \sum_{a\in\Sigma} \left( \sum_{c\in\Gamma} p_{ac} \right) |a\rangle 
+\] \vspace{5px}
 
 
 
+The updated probabilistic state of $Y$ having obtained a particular outcome
+$a\in\Sigma$ of the measurement of $X$, is represented by the probability
+vector: 
+
+\[
+  |\pi_a\rangle = \frac{\sum_{b\in\Gamma} p_{ab}|b\rangle }{\sum_{c\in\Gamma}
+  p_{ac}}
+\] \vspace{5px}
+
+If $X$ results in a classical state $a$, we update our description of the
+probabilistic state of the joint system $(X,Y)$ to $|a\rangle \otimes
+|\pi_a\rangle$. \\
+
+The definition of $|\pi_a\rangle $ is the \textit{normalization} of the vector
+$\sum_{b\in\Gamma} p_{ab}|b\rangle $ where we divide the sum of the entries in
+this vector to obtain the probability vector. \\
+
+\subsection{Example of Classical State Measurements}
+
+For example, suppose the classical state of $X$ is $\Sigma = {0,1}$, the
+classical state of  $Y$ is $\Gamma = {1, 2, 3}$, and the probabilistic state of
+$(X, Y)$ is 
+
+\[
+|\psi\rangle  = \frac{1}{2}|0, 1\rangle + \frac{1}{12}|0,3\rangle
++ \frac{1}{12}|1,1\rangle + \frac{1}{6}|1, 2\rangle + \frac{1}{6}|1,3\rangle 
+\] \vspace{5px}
+Our goal is to determine probabilities of two possible outcomes -- 0 and 1, and
+to calculate what the resulting probabilistic state of $Y$ is for the two
+outcomes, assuming $X$ is measured. \\
+
+Using the bilinearity of the tensor product, we may rewrite $|\psi\rangle $ as 
+
+\[
+|\psi\rangle = |0\rangle \otimes \left( \frac{1}{2}|1\rangle
+  + \frac{1}{12}|3\rangle \right) + |1\rangle \otimes
+  \left(\frac{1}{12}|1\rangle + \frac{1}{6}|2\rangle + \frac{1}{6}|3\rangle
+    \right)
+\] \vspace{5px}
+We have isolated the distinct standard basis vectors for the system being
+measured. This is always possible, regardless of what vector we start with. \\
+
+Thus the probabilities of the two outcomes are given by 
+
+\begin{align*}
+&\text{Pr} (X=0) = \frac{1}{2} + \frac{1}{12} = \frac{7}{12} \\[5px]
+&\text{Pr} (X=1) = \frac{1}{12} + \frac{1}{6} + \frac{1}{6} = \frac{5}{12}
+\end{align*}
+
+The probabilistic state of $Y$, conditioned on each possible outcome can also
+be quickly inferred by normalizing the vectors in parenthesis so that these
+vectors become probability vectors. That is, conditioned on $X$ being 0, the
+probabilistic state of $Y$ becomes
+
+\[
+\frac{\frac{1}{2}|1\rangle + \frac{1}{12}|3\rangle }{\frac{7}{12}}
+= \frac{6}{7}|1\rangle + \frac{1}{7}|3\rangle 
+\] \vspace{5px}
+
+and conditioned on the measurement of $X$ being 1, the probabilistic state of
+$Y$ becomes
 
 
+\[
+\frac{\frac{1}{12}|1\rangle + \frac{1}{6}|2\rangle + \frac{1}{6}|3\rangle
+}{\frac{5}{12}} = \frac{1}{5}|1\rangle + \frac{2}{5}|2\rangle + \frac{2}{5}|3\rangle 
+\] \vspace{5px}
+
+
+\subsection{Operations on Probabilistic States}
+
+We will consider \textit{operations} on multiple systems in probabilistic
+states. Returning to the typical setup where we have two systems $X$ and $Y$,
+let us consider classical operations on the compound system $(X,Y)$. Any
+operation is represented by a stochastic matrix whose rows and columns are
+indexed by the Cartesian Product $\Sigma \times \Gamma$. \\
+
+For example, suppose $X$ and $Y$ are bits, and consider the operation: \\
+
+\begin{mainbox}{}
+  If $X = 1$, then perform a NOT operation on $Y$. \\ Otherwise do nothing.
+\end{mainbox}
+
+This is a deterministic operation known as a \textit{controlled-NOT} or CNOT
+operation, where $X$ is the \textit{control} bit that determines whether or not
+a NOT operation gets applied to the \textit{target} bit $Y$. Here is the matrix
+representation of this operation: 
+
+\[
+\begin{pmatrix}
+  1 & 0 & 0 & 0 \\
+  0 & 1 & 0 & 0 \\
+  0 & 0 & 0 & 1 \\
+  0 & 0 & 1 & 0 
+\end{pmatrix}
+\] \vspace{5px}
+
+Its action on the standard basis states: 
+
+\begin{align*}
+  &|00\rangle \mapsto |00\rangle \\
+  &|01\rangle \mapsto |01\rangle \\
+  &|10\rangle \mapsto |11\rangle \\
+  &|11\rangle \mapsto |10\rangle 
+\end{align*}
+
+Another example is the operation having this description
+
+\begin{subbox}{}
+  Perform one of the  following two operations, each with probability
+  $\frac{1}{2}$ : 
+  \begin{itemize}
+    \item[-] Set $Y$ to be equal to $X$ 
+    \item[-] Set $X$ to be equal to $Y$
+  \end{itemize}
+\end{subbox}
+
+The matrix representation is as follows: 
+
+\[
+\begin{pmatrix}
+  1 & \frac{1}{2} & \frac{1}{2} & 0 \\ 
+  0 & 0 & 0 & 0 \\
+  0 & 0 & 0 & 0 \\
+  0 & \frac{1}{2} & \frac{1}{2} & 1 \end{pmatrix} = \frac{1}{2} \begin{pmatrix}
+    1 & 1 & 0 & 0 \\
+    0 & 0 & 0 & 0 \\
+    0 & 0 & 0 & 0 \\
+    0 & 0 & 1 & 1 
+  \end{pmatrix} + \frac{1}{2} \begin{pmatrix}
+    1 & 0 & 1 & 0 \\
+    0 & 0 & 0 & 0 \\
+    0 & 0 & 0 & 0 \\
+    0 & 1 & 0 & 1
+  \end{pmatrix} 
+\] \vspace{5px}
+The action of this operation on the standard basis vectors: 
+
+\begin{align*}
+  &|00\rangle \mapsto |00\rangle \\
+  &|01\rangle \mapsto \frac{1}{2}|00\rangle + \frac{1}{2}|11\rangle \\
+  &|10\rangle \mapsto \frac{1}{2}|00\rangle  + \frac{1}{2}|11\rangle \\
+  &|11\rangle \mapsto |11\rangle 
+\end{align*}
 
 
 
