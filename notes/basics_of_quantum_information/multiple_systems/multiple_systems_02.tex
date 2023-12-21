@@ -638,6 +638,208 @@ The action of this operation on the standard basis vectors:
   &|11\rangle \mapsto |11\rangle 
 \end{align*}
 
+In these examples, we view two systems together as a single system. We can do
+this with any number of systems. 
+
+\subsection{Independent Operations}
+
+Suppose we want to \textit{independently} perform \textit{separate
+operations} on the systems. For example, taking our usual setup of $X$ and $Y$
+having classical state sets $\Sigma$ and $\Gamma$, let's perform one operation
+on $X$, and, completely independently, another operation on $Y$. Suppose the
+matrix $M$ acts on $X$ and $N$ acts on $Y$. The rows and columns of $M$ have
+indices that are placed in correspondence with elements of $\Sigma$ and
+likewise for $N$. \\
+
+A natural question to ask is this: if we view $X$ and $Y$ as a single compound
+system $(X, Y)$ what is the matrix that represents the \textit{combined action}
+of two operations on the compound system? We must first introduce the notion of
+the \textit{tensor product of matrices}
+
+\subsection{Tensor Product of Matrices} 
+
+The tensor product of $M \otimes N$ of the matrices 
+
+\[
+  M = \sum_{a, b \in \Sigma} \alpha_{ab} |a\rangle \langle b | \qquad
+  N = \sum_{c,d \in \Gamma} \beta_{cd} |c\rangle \langle d | 
+\] \vspace{5px}
+
+
+is the matrix
+
+\begin{mainbox}{Tensor Product of $M$ and $N$}
+\[
+  M\otimes N = \sum_{a,b \in \Sigma} \sum_{c, d \in \Gamma}
+  \alpha_{ab}\beta_{cd} |ac\rangle \langle bd | 
+\] 
+\end{mainbox}
+
+Equivalently, $M$ and $N$ is defined by the equation 
+
+\[
+\langle ac | M \otimes N |bd\rangle  = \langle a | M |b\rangle \langle c | N|d\rangle 
+\] \vspace{5px}
+
+Another equivalent way to describe $M\otimes N$ is that it is the unique matrix
+that satisfies the equation 
+
+\[
+  (M\otimes N) (|\phi\rangle \otimes |\psi\rangle ) = (M|\phi\rangle )\otimes
+  (N|\psi\rangle )
+\] \vspace{5px}
+for every possible choice of vectors $\phi$ and $\psi$. Where $\phi$
+corresponds to the indices $\Sigma$ and the indices of $\psi$ correspond to
+$\Gamma$. \\
+
+The tensor product of two matrices can be written explicitly as follows: 
+
+\begin{align*}
+  \begin{pmatrix}
+  \alpha_{11} & \cdots & \alpha_{1m} \\ \vdots & \ddots & \vdots \\
+    \alpha_{m1} & \cdots & \alpha_{mm}
+  \end{pmatrix} \otimes \begin{pmatrix}
+    \beta_{11} & \cdots & \beta_{1k} \\ \vdots & \ddots & \vdots \\ \beta{k1}
+               & \cdots & \beta{kk}
+  \end{pmatrix}  
+\end{align*}
+\[
+= \begin{pmatrix}
+  \alpha_{11}\beta_{11} & \cdots & \alpha_{11}\beta_{1k} & & \alpha_{1m}\beta_{11} & \cdots & \alpha_{1m}\beta_{1k} \\ \vdots & \ddots & \vdots & \cdots & \vdots & \ddots & \vdots \\ \alpha_{11}\beta_{k1} & \cdots & \alpha_{11}\beta_{k1} & & \alpha{1m}\beta_{k1} &\cdots & \alpha_{1m}\beta_{kk} \\ & \vdots & & \ddots & & \vdots & \\ \alpha_{m1}\beta_{11} &\cdots &\alpha_{m1}\beta_{1k} & & \alpha_{mm}\beta_{11}& \cdots & \alpha_{mm}\beta_{1k} \\ \vdots & \ddots & \vdots & \cdots & \vdots & \ddots & \vdots \\ \alpha_{m1}\beta_{k1} & \cdots & \alpha_{m1} \beta_{kk} & & \alpha_{mm} \beta_{k1} & \cdots & \alpha_{mm}\beta_{kk}
+\end{pmatrix} 
+\] \vspace{5px}
+
+For three or more systems it is the same -- the tensor product $M_1 \otimes \cdots \otimes M_n$ is defined by the condition that 
+
+\[
+  \langle a_1\cdots a_n | M_1\otimes \cdots\otimes M_n |b_1 \cdots b_n\rangle = \langle a_1 | M_1|b_1\rangle \cdots \langle a_n | M_n |b_n\rangle 
+\] \vspace{5px}
+
+
+\subsection{Summary} 
+
+We found that if $M$ is a probabilistic operation on $X$, $N$ is a probabilistic operation on $Y$, and the two operations are performed independently, the resulting operation on the compound system $(X, Y)$ is the tensor product $M \otimes N$ -- \textbf{tensor products represent independence}. \\
+
+If we have two systems $X$ and $Y$ that are independently in the probabilistic states $|\phi\rangle$ and $|\pi\rangle$ then the compound system $(X, Y)$ is in the probabilistic state $|\phi\rangle \otimes |\pi\rangle $. \\
+
+Let us take a look at an example, which recalls probabilistic operation on a single bit. If the classical state of the bit is 0, it is left alone; and if the classical state of the bit is 1, it is flipped to 0 with probability $\frac{1}{2}$. This operation is represented by the matrix: 
+
+\[
+\begin{pmatrix}
+  1 & \frac{1}{2} \\[4px]
+  0 & \frac{1}{2} 
+\end{pmatrix} 
+\] \vspace{5px}
+
+If we perform this operation on bit $X$, and a NOT operation is independently performed on the second bit $Y$, then the joint operation on the compound system $(X, Y)$ has the matrix representation 
+
+\[
+\begin{pmatrix}
+  1 & \frac{1}{2} \\[4px]
+  0 & \frac{1}{2} 
+\end{pmatrix} \otimes \begin{pmatrix}
+  0 & 1 \\[4px] 1 & 0
+\end{pmatrix} = \begin{pmatrix}
+  0 & 1 & 0 & \frac{1}{2} \\[4px] 1 & 0 & \frac{1}{2} & 0 \\[4px] 0 & 0 & 0 & \frac{1}{2} \\[4px] 0 & 0 & \frac{1 }{2} & 0
+\end{pmatrix}
+\] \vspace{5px}
+
+which is also a stochastic matrix. If we do an operation on one bit and do nothing to the other, this is the same as taking the tensor product against the identity matrix. For example, resetting the bit $X$ to the 0 state and doing nothing to $Y$ yields the probabilistic state on $(X, Y)$ represented by the matrix
+
+\[
+\begin{pmatrix}
+  1 & 1 \\[4px]
+  0 & 0 
+\end{pmatrix} \otimes \begin{pmatrix}
+  1 & 0 \\[4px]
+  0 & 1 
+\end{pmatrix} = \begin{pmatrix}
+  1 & 0 & 1 & 0 \\ 0 & 1 & 0 & 1 \\ 0 & 0 & 0 & 0 \\ 0 & 0 & 0 & 0
+\end{pmatrix} 
+\] \vspace{5px}
+\newpage 
+
+\section{Quantum Information}
+
+The mathematical description of quantum information for multiple systems is similar to the probabilistic case and makes use of similar concepts and techniques. 
+
+\subsection{Quantum States}
+
+Multiple states can be viewed collectively as single, compound systems. That is, quantum states of multiple systems are represented by column vectors having complex number entries and Euclidean norm equal to 1 -- just like single systems. In the multiple system case, the indices of these vectors are placed in correspondence with the \textit{Cartesian Product} of the classical state sets associated with the individual systems. \\
+
+If $X$ and $Y$ are qubits, then the classical state set of the pair of qubits
+$(X,Y)$ viewed collectively as a single system is the Cartesian Product $\{0,
+1\} \times \{0, 1\}$. We associate this Cartesian Product set with the set
+$\{00, 01, 10, 11\}$. \\
+
+For the quantum state vector 
+
+\[
+  \frac{1}{\sqrt{2}}|00\rangle - \frac{1}{\sqrt{6}}|01\rangle + \frac{i}{\sqrt{6}}|10\rangle  + \frac{1}{\sqrt{6}}|11\rangle 
+\] \vspace{5px}
+
+We can write it explicitly as a column vector
+
+\[
+\begin{pmatrix}
+  \frac{1}{\sqrt{2}}\\[4px] -\frac{1}{\sqrt{6}} \\[4px] \frac{i}{\sqrt{6}} \\[4px] \frac{1}{\sqrt{6}}
+
+\end{pmatrix}
+\] \vspace{5px}
+\subsection{Tensor Products of Quantum State Vectors}
+
+Suppose that  $|\phi\rangle $ is a quantum state vector of system $X$ and $|\psi\rangle $ is a quantum state vector of $Y$. The tensor product $|\phi\rangle \otimes |\psi\rangle $ which is equivalent to $|\psi\rangle |phi\rangle $ or $|\phi\otimes\psi\rangle $, is then a quantum state vector of the joint system $(X, Y)$. This is known as the \textit{product state}. \\
+
+When a pair of systems $(X,Y)$ is in a product state $|\phi\rangle \otimes |\psi\rangle $, this means $X$ is in the quantum state $|\phi\rangle $, $Y$ is in the quantum state $\psi$, and the states of the two systems have nothing to do with one another. \\
+
+The fact that the tensor product vector $|\phi\rangle \otimes |\psi\rangle $ is also a quantum state is consistent with the euclidean norm being \textit{multiplicative} with respect to tensor products: 
+
+\begin{align*}
+  || |\phi\rangle \otimes |\psi\rangle || &= \sqrt{\sum_{(a,b)\in\Sigma\times\Gamma} |\langle ab | \phi\otimes\psi\rangle |^2} \\ &= \sqrt{\sum_{a\in\Sigma}\sum_{b\in\Gamma} | \langle a | \phi\rangle \langle b | \psi \rangle|^2}\\ &= \sqrt{\left(\sum_{a\in\Sigma} | \langle a | \phi\rangle |^2\right)\left(\sum_{b\in\Gamma} | \langle b | \psi\rangle|^2\right)} \\ &= |||\phi\rangle |||||\psi\rangle ||
+\end{align*}
+
+Product states of any sizes joint system $(X_1, \hdots , X_n)$ are all quantum state vectors as well. 
+
+\subsection{Quantum Entanglement} 
+
+Not all quantum state vectors of multiple systems are product states. For example, the quantum state vector 
+
+\[
+  \frac{1}{\sqrt{2}}|00\rangle + \frac{1}{\sqrt{2}}|11\rangle 
+\] \vspace{5px}
+
+of two qubits is not a product state -- both states are related to one another. \\
+
+If the above quantum state vector was a product state -- there would exist quantum state vectors $|\phi\rangle$ and $|\psi\rangle $ for which 
+
+\[
+  |\phi\rangle \otimes |\psi\rangle = \frac{1}{\sqrt{2}}|00\rangle + \frac{1}{\sqrt{2}}|11\rangle 
+\] \vspace{5px}
+
+But then it would be the case that 
+
+\[
+\langle 0 | \phi \rangle \langle 1 | \psi\rangle = \langle 01 | \phi\otimes\psi\rangle = 0
+\] \vspace{5px}
+
+since the coefficient in front of $|01\rangle $ is 0. This implies that $\langle 0 | \phi\rangle = 0$ or $\langle 1 | \psi\rangle = 0$, or both. This contradicts the fact that 
+
+\[
+  \langle 0 | \phi \rangle \langle 0 | \psi \rangle = \langle 00 | \phi\otimes\psi\rangle = \frac{1}{\sqrt{2}}
+\] \vspace{5px}
+
+and 
+
+\[
+  \langle 1 | \phi \rangle \langle 1 | \psi \rangle = \langle 11 | \phi\otimes\psi \rangle = \frac{1}{\sqrt{2}}
+\] \vspace{5px}
+
+since both are nonzero. \\ 
+
+It follows that the above quantum state represents a \textit{correlation} between two systems -- we say the systems are \textit{ \textbf{entangled}}. 
+
+
+
 
 
 
