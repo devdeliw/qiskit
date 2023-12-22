@@ -11,6 +11,14 @@
 \usepackage{esint}
 \usepackage{geometry}
 
+\usepackage{color}   %May be necessary if you want to color links
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true, %set true if you want colored links
+    linktoc=all,     %set to all if you want both sections and subsections linked
+    linkcolor=red,  %choose some color if you want links to stand out
+}
+
 % Inverting Color of PDF
 \usepackage{xcolor}
 \pagecolor[rgb]{0.19,0.19,0.19}
@@ -834,11 +842,257 @@ and
   \langle 1 | \phi \rangle \langle 1 | \psi \rangle = \langle 11 | \phi\otimes\psi \rangle = \frac{1}{\sqrt{2}}
 \] \vspace{5px}
 
-since both are nonzero. \\ 
+since both are nonzero.  It follows that the above quantum state represents a \textit{correlation}
+between two systems -- we say the systems are \textit{ \textbf{entangled}}\\ 
 
-It follows that the above quantum state represents a \textit{correlation} between two systems -- we say the systems are \textit{ \textbf{entangled}}. 
+
+Entanglement can be complicated, particularly for the sorts of noisy quantum
+states that can be described in the general, density matrix formulation of
+quantum information that was mentioned in Lesson 01 — but for quantum state
+vectors in the simplified formulation that we are focusing on here,
+entanglement is equivalent to correlation. \\ Here, any quantum state vector that is not a product vector represents an entangled state. \\
+
+\subsection{Bell States}
+
+Bell states are the following four two-qubit states: 
+
+\begin{align*}
+  |\phi^+\rangle &= \frac{1}{\sqrt{2}} |00\rangle + \frac{1}{\sqrt{2}}|11\rangle \\
+  |\phi^-\rangle &= \frac{1}{\sqrt{2}} |00\rangle - \frac{1}{\sqrt{2}}|11\rangle \\
+  |\psi^+\rangle &= \frac{1}{\sqrt{2}} |01\rangle + \frac{1}{\sqrt{2}}|10\rangle \\ 
+  |\psi^-\rangle &= \frac{1}{\sqrt{2}}|01\rangle - \frac{1}{\sqrt{2}}|10\rangle 
+\end{align*}
+
+The collection of all four Bell states
+
+\[
+  \{ |\phi^+\rangle , |\phi^-\rangle , |\psi^+\rangle , |\psi^-\rangle \} 
+\] \vspace{5px}
+
+is known as the \textit{Bell Basis} -- any 2bit quantum state vector can be expressed as a linear combination of the four Bell states. 
+
+\[
+  |00\rangle = \frac{1}{\sqrt{2}}|\phi^+\rangle + \frac{1}{\sqrt{2}}|\phi^-\rangle 
+\] \vspace{5px}
 
 
+\subsection{GHZ \& W States}
+
+Next we will consider two interesting examples of states of \textit{three qubits}. \\
+
+The first example that represents a quantum state of 3 qubits $(X, Y, Z)$ is the \textit{GHZ state}: 
+\begin{subbox}{GHZ State}
+\[
+  \frac{1}{\sqrt{2}} |000\rangle + \frac{1}{\sqrt{2}}|111\rangle 
+\] 
+\end{subbox}
+The second example is the \textit{W State}: 
+\begin{mainbox}{W State} 
+\[
+  \frac{1}{\sqrt{3}}|001\rangle + \frac{1}{\sqrt{3}}|010\rangle + \frac{1}{\sqrt{3}}|100\rangle 
+\] 
+\end{mainbox}
+
+Neither of these is a product state -- they can not be written as a tensor
+product of 3 qubit quantum state vectors. Systems having the classical state set $\{0, 1, 2\}$ are called \textit{trits}, or, assuming we consider the possibility that they are in quantum states, \textit{qutrits}. The term \textit{qudit} refers to a system having classical state set $\{0, \hdots, d-1\}$ for an arbitary choice of $d$.  
+
+\subsection{Measurements of Quantum States}
+
+If a system having a classical state set $\Sigma$ is in a quantum state represented by the vector  $|\psi\rangle $, and that system is measured (with respect to a standard basis measurement), then each classical state $a \in \Sigma$ appears with probability $|\langle a | \psi \rangle |^2 .$ \\
+
+Let us suppose that  $X_1, \hdots, X_n$ are systems having classical state sets $\Sigma_1, \hdots, \Sigma_n$, respectively. We can then view $(X_1, \hdots, X_n)$ as a single system whose classical state set is the Cartesian Product $\Sigma_1 \times \cdots \times \Sigma_n$. If a quantum state of this system is represented by $|\psi\rangle $, and all of the systems are measured, then each possible outcome $(a_1, \hdots, a_n) \in \Sigma_1 \times \cdots \times \Sigma_n$  appears with probability $|\langle a_1\cdots a_n | \psi \rangle |^2$.\\
+
+For example, if systems $X$ and $Y$ are jointly in the quantum state
+
+\[
+\frac{3}{5}|0\rangle |\heartsuit\rangle - \frac{4i}{5}|1\rangle |\spadesuit\rangle  
+\] \vspace{5px}
+
+then measuring both systems with respect to a standard basis measurement yields the outcome $(0, \heartsuit)$ with probability $\frac{9}{25}$ and the outcome $(1, \spadesuit)$ with probability $\frac{16}{25}$
+
+
+\subsection{Partial Measurements for Two Systems}
+
+Now let us consider the situation in which we have multiple systems in some quantum state, and we measure a proper subset of the systems. Let's begin with two systems $X$ and $Y$ having classical state sets $\Sigma$ and $\Gamma$. \\
+
+In general a quantum state vector of $(X, Y)$ takes the form 
+
+\[
+  |\psi\rangle = \sum_{(a,b)\in\Sigma\times\Gamma} \alpha_{ab}|ab\rangle 
+\] \vspace{5px}
+
+where $\{ \alpha_{ab}: (a, b) \in \Sigma\times\Gamma$ is a collection of complex numbers satisfying 
+
+  \[
+    \sum_{(a,b) \in \Sigma\times\Gamma} |\alpha_{ab}|^2 = 1
+  \] \vspace{5px}
+  
+($|\psi\rangle $ is a unit vector).\\
+
+If both $X$ and $Y$ were measured, then each possible outcome $(a, b) \in \Sigma\times\Gamma$ would appear with probability 
+
+\[
+  |\langle ab | \psi \rangle |^2 = |\alpha_{ab}|^2
+\] \vspace{5px}
+
+Supposing that just the first system $X$ is measured, the probability for each outcome $a\in\Sigma$ to appear therefore must be equal to 
+
+\[
+  \sum_{b\in\Gamma} |\langle ab | \psi \rangle |^2 = \sum_{b\in\Gamma}|\alpha_{ab}|^2
+\] \vspace{5px}
+
+The probability  for each particular outcome to appear when $X$ is measured cannot possibly depend on whether or not $Y$ was also measured as that would allow faster-than-light communication. \\
+
+Having obtained a particular outcome $a \in \Sigma$ of this measurement of $X$ we expect that the quantum state of $X$ changes so that it is equal to $|a\rangle$, like we had for single systems. What happens to $Y$?\\
+
+Let us describe the joint quantum state $(X, Y)$ under the assumption that $X$ was measured and the result was the classical state $a$. \\
+
+First we express the vector $|\psi\rangle $ as 
+
+\[
+|psi\rangle = \sum_{a\in\Sigma} |a\rangle \otimes |\phi_a\rangle 
+\] \vspace{5px}
+
+where
+
+\[
+  |\phi_a\rangle = \sum_{b\in\Gamma} \alpha_{ab}|b\rangle 
+\] \vspace{5px}
+
+for each $a\in\Sigma$. The probability that the standard basis measurement of $X$ results in each outcome of $a$ may be written as follows: 
+
+\[
+  \sum_{b\in\Gamma} |\alpha_{ab}|^2 = |||\phi_a\rangle ||^2
+\] \vspace{5px}
+
+Now, as a result of the standard basis measurement of $X$ resulting in outcome $a$, we have that the quantum state of the pair $(X,Y)$ together becomes 
+
+\[
+|a\rangle \otimes \frac{|\phi_a\rangle }{|||\phi_a\rangle ||}
+\] \vspace{5px}
+
+The state ``collapses" like in the single-system case. Informally speaking, $|a\rangle \otimes |\phi_a\rangle $ represents the component of $|\psi\rangle $ that is consistent with measurement of $X$ resulting in outcome $a$. We normalize this vector to yield a valid quantum state vector. \\
+
+As an example, let us consider the state of two qubits $(X, Y)$ from the beginning of the section: 
+
+\[
+  |\psi\rangle = \frac{1}{\sqrt{2}}|00\rangle - \frac{1}{\sqrt{6}}|01\rangle + \frac{i}{\sqrt{6}}|10\rangle + \frac{1}{\sqrt{6}}|11\rangle 
+\] \vspace{5px}
+
+To understand what happens when the first system $X$ is measured, we begin by writing 
+
+\[
+  |\psi\rangle = |0\rangle \otimes \left(\frac{1}{\sqrt{2}}|0\rangle  - \frac{1}{\sqrt{6}}|1\rangle \right) + |1\rangle \otimes \left(\frac{i}{\sqrt{6}}|0\rangle + \frac{1}{\sqrt{6}}|1\rangle \right)
+\] \vspace{5px}
+
+The probability of the measurement to result in outcome 0 is 
+
+\[
+  \Big| \Big| \frac{1}{\sqrt{2}}|0\rangle - \frac{1}{\sqrt{6}}|1\rangle \Big|\Big|^2 = \frac{1}{2} + \frac{1}{6} = \frac{2}{3}
+\] \vspace{5px}
+
+in which case the state of  $(X, Y)$ becomes
+
+\[
+  |0\rangle \otimes \frac{\frac{1}{\sqrt{2}} |0\rangle - \frac{1}{\sqrt{6}}|1\rangle}{\sqrt{\frac{2}{3}}} = |0\rangle \otimes \left( \sqrt{\frac{3}{4}} |0\rangle - \frac{1}{2}|1\rangle \right)
+\] \vspace{5px}
+The same process goes for if the measurement of $X$ yields $1$
+
+\subsection{Remark on Reduced Quantum States}
+
+This example shows a limitation of the simplified description of Quantum Information: it offers no way to describe the reduced (or marginal) quantum state of just one of two systems like we did in the probabilistic case. \\
+
+For a probabilistic state of two systems $(X, Y)$ described by a probability vector
+
+\[
+  |\psi\rangle = \sum_{(a,b)\in\Sigma\times\Gamma} p_{ab}|ab\rangle 
+\] \vspace{5px}
+the \textit{reduced} state of $X$ alone is described by the probability vector 
+
+\[
+  \sum_{(a,b)\in\Sigma\times\Gamma} p_{ab}|a\rangle 
+\] \vspace{5px}
+
+For quantum state vectors -- there is no analog. 
+
+\subsection{The Swap Operation} 
+
+Let us take a look at two classes of examples of unitary operations on multiple systems, beginning with the swap operation. \\
+
+Suppose that $X$ and $Y$ are systems that share the same classical state set $\Sigma$. The \textit{swap} operation on the pair $(X, Y)$ is the operation that exchanges the contents of the two systems but otherwise leaves the systems alone. \\ 
+
+We will denote this operation as SWAP such that for every choice of classical states $a, b \in \Sigma$
+
+\[
+\text{SWAP} |a\rangle |b\rangle = |b\rangle |a\rangle 
+\] \vspace{5px}
+
+such that 
+
+\[
+\text{SWAP}  = \sum_{c,d\in\Sigma} |c\rangle \langle d | \otimes |d\rangle \langle c | = \begin{pmatrix}
+  1 & 0 & 0 & 0 \\ 0 & 0 & 1 & 0 \\ 0 & 1 & 0 & 0 \\ 0 & 0 & 0 & 1
+\end{pmatrix} 
+\] \vspace{5px}
+
+\subsection{Controlled-Unitary Operations}
+
+Now let us suppose that $Q$ is a qubit and $R$ is an arbitrary system, with whatever classical state we wish. \\
+
+For every unitary operation $U$ acting on $R$, a \textit{controlled} $U$ operation is a unitary operation on the pair $(Q, R)$ defined as follows: 
+
+\[
+CU = |0\rangle \langle 0 | \otimes I_R + |1\rangle \langle 1 | \otimes U  
+\] \vspace{5px}
+
+For example, if $R$ is also a qubit, and we think about the Pauli $X$ operation on $R$, then a controlled-$X$ operation is given by 
+
+\[
+CX = |0\rangle \langle 0 | \otimes I_R + |1\rangle \langle 1 |  \otimes X = \begin{pmatrix}
+  1 & 0 & 0 & 0 \\ 0 & 1 & 0 & 0 \\ 0 & 0 & 0 & 1 \\ 0 & 0 & 1 & 0 
+\end{pmatrix} 
+\] \vspace{5px}
+
+If we instead take $R$ to be two qubits and $U$ to be the SWAP operation between these two qubits we obtain: 
+
+\[
+\text{CSWAP}  = \begin{pmatrix}
+  1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+  0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 \\
+  0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 \\
+  0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 \\
+  0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 \\
+  0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 \\
+  0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 \\
+  0 & 0 & 0 & 0 & 0 & 0 & 0 & 0
+\end{pmatrix} 
+\] \vspace{5px}
+
+This operation can be described as follows: 
+
+\begin{align*}
+  &\text{CSWAP} |0bc\rangle = |0bc\rangle \\
+  &\text{CSWAP} |1bc\rangle = |1cb\rangle 
+\end{align*}
+
+A \textit{controlled-controlled-NOT} operation, $CCX$: 
+
+\[
+CCX = \begin{pmatrix}
+  1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ 
+  0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 \\
+  0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 \\
+  0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 \\
+  0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 \\
+  0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 \\
+  0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 \\
+  0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 
+\end{pmatrix} 
+\] \vspace{5px}
+
+where 
+
+\[CCX = ( |00\rangle \langle 00 | + |01\rangle \langle 01 | + |10\rangle \langle 10 | ) \otimes I + |11\rangle \langle 11 | \otimes X\]
 
 
 
