@@ -1,0 +1,334 @@
+\documentclass[svgnames]{article}     % use "amsart" instead of "article" for AMSLaTeX format
+%\geometry{landscape}                 % Activate for rotated page geometry
+
+%\usepackage[parfill]{parskip}        % Activate to begin paragraphs with an empty line rather than an indent
+
+\usepackage{graphicx}                 % Use pdf, png, jpg, or eps§ with pdflatex; use eps in DVI mode
+
+%maths                                % TeX will automatically convert eps --> pdf in pdflatex
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{esint}
+\usepackage{geometry}
+
+% Inverting Color of PDF
+\usepackage{xcolor}
+\pagecolor[rgb]{0.19,0.19,0.19}
+\color[rgb]{0.77,0.77,0.77}
+
+%noindent
+\setlength\parindent{0pt}
+
+%pgfplots
+\usepackage{pgfplots}
+
+\usepackage{color}   %May be necessary if you want to color links
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true, %set true if you want colored links
+    linktoc=all,     %set to all if you want both sections and subsections linked
+    linkcolor=red,  %choose some color if you want links to stand out
+}
+
+%images
+\graphicspath{{/Users/devaldeliwala/screenshots/}}                   % Activate to set a image directory
+
+%tikz
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.15}
+\usepackage{comment}
+\usetikzlibrary{arrows}
+\usepackage[most]{tcolorbox}
+
+\tcbset {
+  base/.style={
+    arc=0mm,
+    bottomtitle=0.5mm,
+    boxrule=0mm,
+    colbacktitle=black!10!white,
+    coltitle=black,
+    fonttitle=\bfseries,
+    left=2.5mm,
+    leftrule=1mm,
+    right=3.5mm,
+    title={#1},
+    toptitle=0.75mm,
+  }
+}
+
+\definecolor{brandblue}{rgb}{0.34, 0.7, 1}
+\newtcolorbox{mainbox}[1]{
+  colframe=brandblue,
+  base={#1}
+}
+
+\newtcolorbox{subbox}[1]{
+  colframe=black!30!white,
+  base={#1}
+}
+
+%Figures
+\usepackage{float}
+\usepackage{caption}
+\usepackage{lipsum}
+
+
+\title{Quantum Circuits}
+\author{Deval Deliwala}
+%\date{}                              % Activate to display a given date or no date
+
+\begin{document}
+\maketitle
+%\section{}
+%\subsection{}
+\tableofcontents                     % Activate to display a table of contents
+\newpage
+This lesson introduces the \textit{quantum circuit} model of computation,
+a standard description of quantum computations we'll use further onwards. \\
+
+We will also introduce a few important mathematical concepts including
+\textit{inner products}, the notion of \textit{orthogonality} and
+\textit{orthonormality}, and \textit{projections} and \textit{projective
+measurements}, which generalize standard basis measurements. Through these
+concepts, we'll derive fundamental limitations on quantum information,
+including the \textit{no-cloning theorem} and the impossibility to perfectly
+discriminate non-orthogonal quantum states. \\
+
+\section{Circuits}
+
+In computer science, \textit{circuits} are models of computation in which
+information is carried by wires via a network of \textit{gates}, which
+represent operations that transform the information carried by the wires. \\
+
+Although the word ``circuit" often refers to a circular path, circular paths
+aren't actually allowed in most circuit models of computation. Quantum circuits
+follow this pattern -- a quantum circuit represents a finite sequence of
+operations that cannot contain feedback loops. 
+
+\subsection{Boolean Circuits}
+
+Here is an example of a classical Boolean circuit, where wires carry binary
+values and the gates represent Boolean logic operations: 
+
+\begin{figure}[H]
+  \centering
+    \includegraphics[width = 10cm]{screenshot.png}
+    \caption*{XOR}
+\end{figure}
+
+
+The flow of information along the wires goes from left to right, the wires on
+the left-hand side of the figure labeled $X$ and $Y$ are input bits, which can
+each be set to whatever binary value we choose, and the wire on the right-hand
+set is the output. The immediate wires take whatever values are determined by
+the gates, which are evaluated from left to right. \\
+
+The gates are AND gates ($\land$), OR gates ($\vee$), and NOT gates (¬). \\
+
+The two small circles on the wires just to the right of the names $X$ and $Y$
+represent \textit{fanout} operations, which simply create a copy of whatever
+value is carried on the wire on which they appear, so that this value can be
+input into multiple gates. \\
+
+The particular circuit in this example computes the XOR, which is denoted by
+the symbol $\oplus$
+
+\begin{center}
+\begin{tabular}{ l |r }
+  $ab$ & $a \oplus b$ \\
+   \hline
+   00 & 0 \\ 
+   01 & 1 \\ 
+   10 & 1 \\ 
+   11 & 0 \\ 
+\end{tabular}
+\end{center}
+
+In the next diagram we consider just one choice for the inputs: $X = 0$ and $Y
+= 1$. Each wire is labeled by value it carries so you can follow the
+operations. The output value is $1$ in this case, which is the correct value
+for $XOR: 0\oplus 1 = 1.$
+
+\begin{figure}[H]
+  \centering
+    \includegraphics[width = 12cm]{screenshot 1.png}
+\end{figure}
+
+You can check the other three possible input settings in a similar way. 
+
+\subsection{Other types of circuits}
+
+In \textit{arithmetic circuits} the wires may carry integer values and the
+gates may represent arithmetic operations, such as addition and multiplication.
+We can also consider circuits that incorporate randomness, such as ones where
+gates represent probabilistic operations. 
+
+\subsection{Quantum Circuits}
+
+In the quantum circuit model, wires represent qubits and gates represent
+operations acting on these qubits. We'll focus for now on operations we've
+encountered so far, namely \textit{unitary} operations and \textit{standard
+basis measurements}. \\
+
+Here is a simple example of a quantum circuit: 
+
+\begin{figure}[H]
+  \centering
+    \includegraphics[width = 10cm]{screenshot 2.png}
+\end{figure}
+
+In this circuit we have a single qubit $X$ and a sequence representing unitary
+operations on this qubit. Just like in the example above, the flow of
+information goes from left to right. The first operation is Hadamard, then
+\textit{S}, then another Hadamard, and a final $T$ operation. Applying the
+entire circuit therefore applies the composition of these operations, $THSH$,
+to the qubit $X$. \\ 
+
+Sometimes we wish to explicitly indicate the input or output states to
+a circuit. For example, if we apply the operation $TSHS$ to the state
+$|0\rangle$, we obtain the state $\frac{1+i}{2}|0\rangle + \frac{1}{\sqrt{2}}|1\rangle $.
+We may indicate this as follows: 
+
+\begin{figure}[H]
+  \centering
+    \includegraphics[width = 12cm]{screenshot 3.png}
+\end{figure}
+
+Quantum circuits often have all qubits initialized to $|0\rangle $, but there
+are also cases where we wish to set the input qubits to different states. \\
+
+Here is how we can specify this circuit in Qiskit: 
+
+\begin{figure}[H]
+  \centering
+    \includegraphics[width = 11.5cm]{screenshot 4.png}
+\end{figure}
+
+Here is another example of a quantum circuit, this time with two qubits: 
+
+\begin{figure}[H]
+  \centering
+    \includegraphics[width = 12cm]{screenshot 5.png}
+\end{figure}
+
+The second gate is a two-qubit gate -- a CNOT operation, where the solid
+circle represents the control qubit and the circle with a plus inside denotes
+the target qubit. \\
+
+Before examining this circuit in greater detail and explaining what it does, it
+is important to clarify how qubits are ordered in quantum circuits
+
+\paragraph{Ordering of Qubits in Quantum Circuits} \mbox{} \\
+
+The topmost qubit in a circuit has index 0, and corresponds to the rightmost
+position in a Cartesian or Tensor Product. The second-to-top has index 1 and
+corresponds to the position second-from-right in a Cartesian or Tensor Product,
+and so on down to the bottom-most qubit which has the highest index, and
+corresponds to the leftmost position in a Cartesian or Tensor product.\\
+
+So for example, when we refer to a qubit in the zeroth position, we're referring
+to the topmost qubit in a circuit diagram or the rightmost qubit in the
+expressing of a quantum state vector; the qubit in the first position is
+second-from-top in a circuit diagram or second from right in a quantum state
+vector; and so on. This indexing convention is known as \textit{little-endian}
+indexing, because the indexes start at the ``little end" when we think about
+the significance of bits in binary representation of numbers.\\ 
+
+
+Thus, in the circuit above, we are considering the circuit to be an operation
+on two qubits $(X, Y)$. If the input is $|\psi\rangle |\phi\rangle $, then the
+lower qubit $(X)$ starts in the state $|\psi\rangle $ and the upper qubit $(Y)$
+starts in the state $|\phi\rangle .$\\
+
+Now let's look at the circuit itself, moving from left to right through its
+operations. \\
+
+1. The first operation is a Hadamard Operation on $Y$. \\
+
+When applying a gate to a single qubit like this, nothing happens to the other
+qubits; nothing happening is equivalent to the identity operation. In our
+circuit there is just one other qubit $X$, so the Hadamard Operation represents
+this operation: 
+
+\[
+I \otimes H = \begin{pmatrix}
+  \frac{1}{\sqrt{2}} & \frac{1}{\sqrt{2}} & 0 & 0 \\ 
+  \frac{1}{\sqrt{2}} & -\frac{1}{\sqrt{2}} & 0 & 0 \\
+  0 & 0 & \frac{1}{\sqrt{2}} & \frac{1}{\sqrt{2}} \\
+  0 & 0 & \frac{1}{\sqrt{2}} & -\frac{1}{\sqrt{2}} 
+\end{pmatrix} 
+\] \vspace{5px}
+
+2. The second operation is the controlled-NOT (CNOT) operation, where $Y$ is
+   the control and $ X$ is the target. The CNOT gate's action on standard basis
+   sates is as follows: 
+
+\begin{figure}[H]
+  \centering
+    \includegraphics[width = 12cm]{screenshot 6.png}
+\end{figure}
+
+Given that we order the qubits as $(X, Y)$, the matrix representation of the
+CNOT gate is this:
+
+\[
+\text{CNOT}  = \begin{pmatrix}
+  1 & 0 & 0 & 0 \\ 0 & 0 & 0 & 1 \\ 0 & 0 & 1 & 0 \\ 0 & 1 & 0 & 0 
+\end{pmatrix}
+\] \vspace{5px}
+
+The unitary operation of the entire circuit, which we'll call $U$ is the
+composition of the two operations: 
+
+\[
+U = \begin{pmatrix}
+  1 & 0 & 0 & 0 \\[4px] 0 & 0 & 0 & 1 \\[4px] 0 & 0 & 1 & 0 \\[4px] 0 & 1 & 0 & 0 
+\end{pmatrix} \begin{pmatrix}
+  \frac{1}{\sqrt{2}} & \frac{1}{\sqrt{2}} & 0 & 0 \\[4px] \frac{1}{\sqrt{2}} & -\frac{1}{\sqrt{2}} & 0 & 0 \\[4px] 0 & 0 & \frac{1}{\sqrt{2}} & \frac{1}{\sqrt{2}} \\[4px] 0 & 0 & \frac{1}{\sqrt{2}} & -\frac{1}{\sqrt{2}} 
+\end{pmatrix} = \begin{pmatrix}
+  \frac{1}{\sqrt{2}} & \frac{1}{\sqrt{2}} & 0 & 0 \\[4px] 0 & 0 & \frac{1}{\sqrt{2}} & -\frac{1}{\sqrt{2}} \\[4px] 0 & 0 & \frac{1}{\sqrt{2}} & \frac{1}{\sqrt{2}}  \\[4px] \frac{1}{\sqrt{2}} & -\frac{1}{\sqrt{2}} & 0 & 0
+\end{pmatrix} 
+\] \vspace{5px}
+
+Recalling our knowledge of Bell states, we get that 
+
+\begin{align*}
+  &U|00\rangle = |\phi^+\rangle \\
+  &U|01\rangle = |\phi^-\rangle \\
+  &U|10\rangle = |\psi^+\rangle \\
+  &U|11\rangle = -|\psi^-\rangle 
+\end{align*}
+
+This circuit gives us a way to convert the standard basis into the bell basis. (The -1 phase factor on the last state could be eliminated if we wanted by adding a controlled-Z gate at the beginning or a swap gate at the end, for instance).\\
+
+In general quantum circuits can contain any number of qubit wires. We may also include classical bit wires which are indicated by double lines: 
+
+\begin{figure}[H]
+  \centering
+    \includegraphics[width = 12cm]{screenshot 7.png}
+\end{figure}
+
+In this circuit we have a Hadamard Gate and a controlled-NOT gate on two qubits $X$ and $Y$, just like in the previous example. We also have two \textit{classical} bits, $A$ and $B$, as well as two measurement gates. The measurement gates represent standard basis measurements: the qubits are changed into their post measurement states, while the measurement outcomes are overwritten onto the classical bits to which the arrows point. \\
+
+Here ins an implementation of this circuit using Qiskit: 
+
+\begin{figure}[H]
+  \centering
+    \includegraphics[width = \textwidth]{screenshot 9.png}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+    \includegraphics[width = \textwidth]{screenshot 10.png}
+\end{figure}
+
+
+
+
+
+
+
+
+
+
+\end{document}
