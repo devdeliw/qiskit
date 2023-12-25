@@ -332,8 +332,269 @@ Here ins an implementation of this circuit using Qiskit:
 \end{figure}
 
 
+Sometimes it is convenient to depict a measurement as a gate that takes a qubit
+as input and outputs a classical bit (as opposed to outputting the qubit its
+post-measurement state and writing the result to a separate classical bit. This
+means that the measured qubit has been discarded and can be safely ignored
+thereafter. \\
+
+For example, the following circuit diagram represents the same process as the
+one in the previous diagram, but where we ignore $X$ and $Y$ after measuring
+them. 
 
 
+\begin{figure}[H]
+  \centering
+    \includegraphics[width = 12cm]{screenshot 12.png}
+\end{figure}
+
+\subsection{Diagrams of Qubit Gates}
+
+Single-Qubit gates are generally shown as squares with a letter indicating
+which operation it is, like this: 
+
+\begin{figure}[H]
+  \centering
+    \includegraphics[width = 12cm]{screenshot 13.png}
+\end{figure}
+
+NOT (or $X$ ) gates are also sometimes denoted by a circle around a + sign. 
+
+Swap gates are denoted as follows: 
+
+\begin{figure}[H]
+  \centering
+    \includegraphics[width = 12cm]{screenshot 14.png}
+\end{figure}
+
+Controlled-gates, meaning that gates that describe controlled-unitary
+operations, are denoted by a filled-in circle (indicating the control)
+connected by a vertical line to whatever operation is being controlled.  For
+instance, controlled-NOT gates, controlled-controlled-NOT gates, and
+controlled-swap gates are denoted like this: 
+
+\begin{figure}[H]
+  \centering
+    \includegraphics[width = 12cm]{screenshot 15.png}
+\end{figure}
+
+Arbitrary unitary operations on multiple qubits may be viewed as gates. They
+are depicted by rectangles labeled by the name of the unitary operation. For
+instance, here is a depiction of an (unspecified) unitary operation $U$ as
+a gate, along with a controlled version of this gate: 
+
+\begin{figure}[H]
+  \centering
+    \includegraphics[width = 12cm]{screenshot 16.png}
+\end{figure}
+
+\section{Inner Products, Orthonormality, and Projections}
+
+
+The notions of the \textit{inner product, }\textit{orthogonality}, and \textit{orthonormality} for sets of
+vectors, and \textit{projection} matrices will allow us to introduce a handy
+generalization of standard basis measurements. 
+
+
+\subsection{Inner Products}
+
+We refer to an arbitrary column vector as a ket, such as 
+
+\[
+|\psi\rangle = \begin{pmatrix}
+  \alpha_1 \\ \alpha_2 \\ \vdots \\ \alpha_n
+\end{pmatrix} 
+\] \vspace{5px}
+
+the corresponding bra vector is the \textit{conjugate transpose} of this
+vector: 
+
+\[
+\langle \psi | = (|\psi\rangle)^\dagger = (\bar\alpha_1 \quad \bar\alpha_2
+\quad \cdots \quad \bar\alpha_n)
+\] \vspace{5px}
+
+Alternatively if we have some classical state set $\Sigma$ in mind, and we
+express a column vector as a ket, such as 
+
+\[
+  |\psi\rangle = \sum_{a\in\Sigma} \alpha_a |a\rangle 
+\] \vspace{5px}
+
+then the corresponding bra vector is the conjugate transpose
+
+\[
+\langle \psi | = \sum_{a\in\Sigma} \bar\alpha_a \langle a | 
+\] \vspace{5px}
+
+We also observed that the product of a bra and ket vector, viewed as matrices
+either having a single row or a single column, results in a scalar.
+Specifically, if we have two (column) vectors
+
+\[
+|\psi\rangle = \begin{pmatrix}
+  \alpha_1 \\ \alpha_2 \\ \vdots \\ \alpha_n
+\end{pmatrix} \quad \text{and} \quad |\phi\rangle = \begin{pmatrix}
+  \beta_1 \\ \beta_2 \\ \vdots \\ \beta_n
+\end{pmatrix} 
+\] \vspace{5px}
+then, 
+
+\[
+\langle \psi | \phi \rangle = \langle \psi | |\phi\rangle = (\bar\alpha_1 \quad \bar\alpha_2 \quad \cdots \quad \bar\alpha_n) \begin{pmatrix}
+  \beta_1 \\ \beta_2 \\ \vdots \\ \beta_n
+\end{pmatrix} = \bar\alpha_1 \beta_1 + \cdots + \bar\alpha_n \beta_n
+\] \vspace{5px}
+
+Alternatively, if we have two column vectors that we have written as 
+
+\[
+|\psi\rangle = \sum_{a\in\Sigma} \alpha_a |a\rangle \quad \text{and} \quad |\phi\rangle = \sum_{b\in\Sigma} \beta_b |b\rangle 
+\] \vspace{5px}
+
+then, 
+
+\begin{mainbox}{Inner Product Definition}
+\begin{align*}
+  \langle \psi | \phi \rangle &= \langle \psi | |\psi\rangle \\
+                              &= \left( \sum_{a\in\Sigma} \bar\alpha_a \langle a |\right) \left( \sum_{b\in\Sigma} \beta_b |b\rangle  \right) \\ 
+                              &= \sum_{a\in\Sigma} \sum_{b\in\Sigma} \bar\alpha_a \beta_b \langle a | b\rangle \\ 
+                              &= \sum_{a\in\Sigma} \bar\alpha_a \beta_a
+\end{align*}
+\end{mainbox}
+
+where the last equality stems from the observation that $\langle a | a \rangle = 1$ and $\langle a | b \rangle = 0 $ for classical states $a$ and $b$ satisfying $a \neq b$. \\ 
+
+The value $\langle \psi | \phi \rangle $ is called the \textit{inner product} between vectors $|\psi\rangle $ and $|\phi\rangle $. Inner products are critically important in quantum information and computation. \\
+
+Let us go over some basic facts about the inner product. 
+
+\paragraph{Relationship to the Euclidean Norm} \mbox{} \\
+
+The inner product of any vector with itself, 
+
+\[
+\langle \psi | \psi \rangle = || |\psi\rangle ||^2. 
+\] \vspace{5px}
+
+Thus, the euclidean norm of a vector may be expressed as 
+
+\[
+|||\psi\rangle || = \sqrt{\langle \psi | \psi \rangle }
+\] \vspace{5px}
+
+And since the euclidean norm can only equal 0 if every entry is equal to 0, for every vector $|psi\rangle $ we have 
+
+\[
+\langle \psi | \psi \rangle \geq 0
+\] \vspace{5px}
+
+\paragraph{Conjugate Symmetry} \mbox{} \\ 
+
+For any two vectors 
+
+\[
+|\psi\rangle  = \sum_{a\in\Sigma} \alpha_a |a\rangle \quad \text{and} \quad |\phi\rangle = \sum_{b\in\Sigma} \beta_b |b\rangle 
+\] \vspace{5px}
+
+we have 
+
+\[
+\langle \psi | \phi \rangle = \sum_{a\in\Sigma} \bar\alpha_a \beta_a \quad \text{and} \quad \langle \phi | \psi \rangle = \sum_{a\in\Sigma} \bar\beta_a\alpha_a
+\] \vspace{5px}
+
+and therefore 
+
+
+\[
+  \overline{\langle \psi | \phi \rangle} = \langle \phi | \psi \rangle 
+\] \vspace{5px}
+
+\paragraph{Linearity in the Second Argument (and conjugate linearity in the first)} \mbox{} \\
+
+Let us suppose that $|\psi\rangle , |\phi_1\rangle , and |\phi_2\rangle $ are vectors and $\alpha_1$ and $\alpha_2$, are complex numbers. If we define a new vector 
+
+\[
+|\phi\rangle = \alpha_1|\phi_1\rangle  + \alpha_2|\phi_2\rangle, 
+\] \vspace{5px}
+
+then 
+
+\[
+\langle \psi | \phi \rangle = \langle \psi | (\alpha_1|\phi_1\rangle + \alpha_2 |\phi_2\rangle ) = \alpha_1\langle \psi | \phi_1 \rangle + \alpha_2\langle \psi | \phi_2 \rangle 
+\] \vspace{5px}
+
+
+The inner product is \textit{linear} in the second argument. This can be verified either through the formulas above or simply by noting that matrix multiplication is \textit{linear} in each argument. \\
+
+Combining this fact with conjugate symmetry reveals that the inner product is \textit{conjugate linear} in the first argument. That is, if $|\psi_1\rangle, |\psi_2\rangle, \text{ and } |\phi\rangle $ are vectors and $\alpha_1$ and $\alpha_2$ are complex numbers, and we define
+
+\[
+|\psi\rangle = \alpha_1 |\psi_1\rangle + \alpha_2 |\psi_2\rangle 
+\] \vspace{5px}
+
+then 
+
+\[
+\langle \psi | \phi \rangle  = (\bar\alpha_1 \langle \psi_1 | + \bar\alpha_2 \langle \psi_2 | )|\phi\rangle = \bar\alpha_1 \langle \psi_1 | \phi \rangle + \bar\alpha_2 \langle \psi_2 | \phi \rangle  
+\] \vspace{5px}
+
+\paragraph{The Cauchy-Schwarz Inequality} \mbox{} \\
+
+For every choice of vectors $|\phi\rangle $ and $|\psi\rangle $ having the same
+number of entries, we have 
+
+\[
+  | \langle \psi | \phi \rangle | \leq \lVert \psi\rangle \rVert \lVert |\phi\rangle \rVert
+\] \vspace{5px}
+
+This inequality is super important and useful. 
+
+\subsection{Orthogonal and Orthonormal Sets}
+
+Two vectors $|\phi\rangle $ and $|\psi\rangle $ are said to be
+\textit{orthogonal} if their inner product is 0: 
+
+\[
+\langle \psi | \phi \rangle = 0
+\] \vspace{5px}
+
+A set of vectors $\{ |\psi_1\rangle, ... , |\psi_m\rangle \} $ is an
+\textit{orthogonal set} if every vector in the set is orthogonal to every other
+vector in the set: 
+
+\[
+\langle \psi_j| \psi_k \rangle = 0
+\] \vspace{5px}
+
+for all choices of $j, k \in \{1, ... , m\}$ for which $j \neq k$. \\ 
+
+A set of vectors $\{ |\psi_1\rangle , ... , |\psi_m\rangle \} $ is called an
+\textit{orthonormal set} if it is an orthogonal set and, in addition every vector is a unit vector: 
+
+\[
+  \langle \psi_j | \psi_k \rangle = 
+  \begin{cases}
+    1 \quad j = k \\ 0 \quad j \neq k
+  \end{cases}
+\] \vspace{5px}
+
+Finally, a set $\{ |\psi_1\rangle, ... , |\psi_m\rangle\} $ is an
+  \textit{orthonormal basis} if, in addition to being an orthonormal set, it
+  forms a basis. This is equivalent to being both an orthonormal set and $m$ 
+  being equal to the dimension of the space from which the vectors are drawn.\\
+
+For example, for any classical state set $\Sigma$, the set of all standard
+basis vectors
+
+\[
+  \{ |a\rangle : a\in\Sigma \}
+\] \vspace{5px}
+
+is an orthonormal basis. The set $\{|+\rangle, |-\rangle \}$ is an orthonormal
+basis for the 2-dimensional space corresponding to a single qubit, and the Bell
+Basis $\{|\phi^+\rangle , |\phi^-\rangle , |\psi^+\rangle , |\psi^-\rangle $ is
+  an orthonormal basis for the 4-dimensional space corresponding to two qubits.
 
 
 
