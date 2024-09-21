@@ -137,10 +137,10 @@ dynamical-decoupling-ga/
 │   └── genetic_algorithm.py    # genetic algorithm
 ├── notebooks/   
 │   ├── XY4.ipynb     
-│   ├──dd_genetic_algo.ipynb       
-│   ├──dd_pulse_scheduling.ipynb 
-│   ├──test_pulse.ipynb
-└── └──test_simulation.ipynb                  
+│   ├── dd_genetic_algo.ipynb       
+│   ├── dd_pulse_scheduling.ipynb 
+│   ├── test_pulse.ipynb
+└── └── test_simulation.ipynb                  
                         
 ```
 
