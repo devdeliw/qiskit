@@ -166,7 +166,7 @@ dynamical-decoupling-ga/
 
 ## Examples
 
-Here is an example of how to use the full pipeline:
+To use the full pipeline: 
 
 1. **Generate DD sequences**: Create a population of sequences using the Pauli basis gates (`X`, `Y`, `Z`).
 2. **Simulate under noise**: Test the sequences under thermal relaxation and depolarizing noise.
