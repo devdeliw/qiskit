@@ -56,14 +56,14 @@ To generate a population of DD sequences, initialize the `GeneratePopulation` cl
 ```python
 from gate_population import GeneratePopulation
 
-population_generator = GeneratePopulation(
-    basis_gates=[XGate(), YGate(), ZGate()], 
-    num_individuals=100, 
-    length_range=(4, 8), 
-    max_gate_reps=10
-)
+population_generator = GeneratePopulation(basis_gates=[XGate(), YGate(), ZGate()], 
+                                num_individuals = 10, 
+                                approx_length = 6,
+                                max_gate_reps = 3, 
+                                basis_names = ['x', 'y', 'z'],
+                                verbose = True)
 
-population = population_generator.population
+population = population_generator.population()
 ```
 
 ### 2. Run Simulations
@@ -73,24 +73,34 @@ To evaluate the performance of DD sequences, use the `FullSimulation` class, whi
 *In `genetic_algorithm/` directory*
 
 ```python
-from simulation import FullSimulation
-from qiskit_aer.noise import NoiseModel
-
-# Define a noise configuration
+# example noise config
 noise_config = {
     'thermal_relaxation': {'t1': 50e3, 't2': 30e3, 'time': 100},
     'depolarization': {'probability': 0.02},
     'amplitude_damping': {'gamma': 0.01},
 }
 
+# example circuit 
+qc = QuantumCircuit(4)
+qc.h(0)
+qc.cx(0,1)
+qc.cx(1,2)
+qc.barrier() # barrier required
+
 sim = FullSimulation(
-    population=population, 
-    noise_config=noise_config, 
-    backend=FakeOsaka()
+    circuit = qc, 
+    num_individuals=100, 
+    length_range=[4, 20], 
+    max_gate_reps=4,
+    basis_gates=[XGate(), YGate(), ZGate()],
+    basis_names=['x', 'y', 'z'],
+    verbose = True
 )
 
-# Run the simulation and get results
-results = sim.run_simulation()
+# run simulation and get results
+results = sim.full_pop_noise_sim(noise_config=noise_config, 
+                                 shots = 1024,     
+                                 save_histogram=True)
 ```
 
 ### 3. Use Genetic Algorithm
@@ -101,18 +111,26 @@ The genetic algorithm framework optimizes the DD sequences by evolving them thro
 
 ```python
 from genetic_algorithm import GeneticAlgorithm
+from simulation import IndividualSimulation
 
-ga = GeneticAlgorithm(
-    population=population, 
-    mutation_rate=0.05, 
-    crossover_rate=0.7
-)
+noise_config = {
+            'thermal_relaxation': {'t1': 50e3, 't2': 75e3, 'time': 100},
+            'depolarization': {'probability': 0.01}
+    }
 
-# Run evolution over several generations
-for generation in range(10):
-    ga.evolve()
-    avg_success = ga.evaluate_population()
-    print(f"Generation {generation}: Avg Success = {avg_success}")
+qc_example = QuantumCircuit(4)
+qc_example.h(0)
+qc_example.cx(0, 1)
+qc_example.cx(1, 2)
+qc_example.cx(2, 3)
+qc_example.barrier()
+
+simulation_instance = IndividualSimulation(qc_example, num_individuals=100, length_range=[50, 100], max_gate_reps=100, verbose=False)
+
+ga = GeneticAlgorithm(simulation_instance, population_size=100, generations = 20, mutation_rate=0.2, noise_config = noise_config, verbose=False)
+final_population = ga.evolve()
+
+ga.plot_progress()
 ```
 
 ## File Structure
