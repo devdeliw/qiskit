@@ -411,7 +411,7 @@ class FullSimulation:
 
         return fitness_table
 
-    def full_pop_noise_sim(self, noise_config, shots, open_histogram = False, save_histogram = False): 
+    def full_pop_noise_sim(self, noise_config, shots = 1024, open_histogram = False, save_histogram = False): 
         probabilities = {'sequence': [], 
                          'mitigated_success': [], 
                          'unmitigated_success': []}
