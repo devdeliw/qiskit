@@ -140,7 +140,7 @@ dynamical-decoupling-ga/
 │   ├──dd_genetic_algo.ipynb       
 │   ├──dd_pulse_scheduling.ipynb 
 │   ├──test_pulse.ipynb
-└── ├──test_simulation.ipynb                  
+└── └──test_simulation.ipynb                  
                         
 ```
 
