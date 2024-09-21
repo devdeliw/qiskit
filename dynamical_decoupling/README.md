@@ -152,7 +152,7 @@ Here is an example of how to use the full pipeline:
 2. **Simulate under noise**: Test the sequences under thermal relaxation and depolarizing noise.
 3. **Apply genetic algorithm**: Evolve the sequences over several generations to improve the success rate.
 
-The following Jupyter notebooks in the `test_notebooks/` directory provide detailed examples for these steps.
+The following Jupyter notebooks in the `notebooks/` directory provide detailed examples for these steps.
 
 ## Contributing
 
