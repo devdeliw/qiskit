@@ -41,8 +41,8 @@ pip install qiskit qiskit_aer numpy matplotlib scipy
 ### Clone the repository
 
 ```bash
-git clone https://github.com/yourusername/dynamical-decoupling-ga.git
-cd dynamical-decoupling-ga
+git clone https://github.com/devdeliw/qiskit.git
+cd qiskit/dynamical_decoupling/
 ```
 
 ## Usage
