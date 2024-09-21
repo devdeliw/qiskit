@@ -73,6 +73,8 @@ To evaluate the performance of DD sequences, use the `FullSimulation` class, whi
 *In `genetic_algorithm/` directory*
 
 ```python
+from simulation import FullSimulation
+
 # example noise config
 noise_config = {
     'thermal_relaxation': {'t1': 50e3, 't2': 30e3, 'time': 100},
