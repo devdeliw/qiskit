@@ -155,12 +155,12 @@ dynamical-decoupling-ga/
 │   ├── gate_population.py      # DD sequence generation
 │   ├── pulse_encoding.py       # pulse encoding for DD sequences
 │   └── genetic_algorithm.py    # genetic algorithm
-├── notebooks/   
-│   ├── XY4.ipynb     
-│   ├── dd_genetic_algo.ipynb       
-│   ├── dd_pulse_scheduling.ipynb 
-│   ├── test_pulse.ipynb
-└── └── test_simulation.ipynb                  
+└── notebooks/   
+    ├── XY4.ipynb       
+    ├── dd_genetic_algo.ipynb       
+    ├── dd_pulse_scheduling.ipynb 
+    ├── test_pulse.ipynb
+    └── test_simulation.ipynb                  
                         
 ```
 
